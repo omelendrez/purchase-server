@@ -1,0 +1,7 @@
+const DATE_FORMAT_FUNCTION = 'to_char';
+const DATE_FORMAT_PARAMS = 'DD-MM-YYYY';
+
+module.exports = {
+  DATE_FORMAT_FUNCTION,
+  DATE_FORMAT_PARAMS
+}

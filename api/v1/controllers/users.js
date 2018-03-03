@@ -2,6 +2,7 @@
 const Users = require("../models").users;
 const sequelize = require("sequelize");
 const Op = sequelize.Op
+const constants = require("../lib/constants")
 
 const errorMessage = [
   {
@@ -79,8 +80,8 @@ module.exports = {
           'status_id',
           'location_id',
           'position_id',
-          [sequelize.fn('to_char', sequelize.col('users.created_at'), 'DD-MM-YY'), 'created_at'],
-          [sequelize.fn('to_char', sequelize.col('users.updated_at'), 'DD-MM-YY'), 'updated_at']
+          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
         ]
       })
       .then(users => res.json(users))
@@ -124,8 +125,8 @@ module.exports = {
           'status_id',
           'location_id',
           'position_id',
-          [sequelize.fn('to_char', sequelize.col('users.created_at'), 'DD-MM-YY'), 'created_at'],
-          [sequelize.fn('to_char', sequelize.col('users.updated_at'), 'DD-MM-YY'), 'updated_at']
+          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
         ]
 
       })
