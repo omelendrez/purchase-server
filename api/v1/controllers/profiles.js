@@ -18,6 +18,7 @@ module.exports = {
 
     return Profiles
       .findAndCountAll({
+        raw: true,
         attributes: [
           'id',
           'name',

@@ -88,6 +88,7 @@ module.exports = {
     Users.belongsTo(Positions);
     Users
       .findOne({
+        raw: true,
         where: {
           id: req.params.id
         },

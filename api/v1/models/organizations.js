@@ -1,15 +1,7 @@
 "use strict";
 module.exports = function (sequelize, DataTypes) {
-  const Locations = sequelize.define("locations", {
+  const Organizations = sequelize.define("organizations", {
     name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    address: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    phone: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -27,5 +19,5 @@ module.exports = function (sequelize, DataTypes) {
       ]
     });
 
-  return Locations;
+  return Organizations;
 };

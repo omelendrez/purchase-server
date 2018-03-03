@@ -1,5 +1,5 @@
 "use strict";
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   const Positions = sequelize.define(
     "positions",
     {
@@ -7,8 +7,15 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.STRING,
         allowNull: false
       }
-    }
-  );
+    },
+    {
+      indexes: [
+        {
+          unique: true,
+          fields: ["name"]
+        }
+      ]
+    });
 
   return Positions;
 };
