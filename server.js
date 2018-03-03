@@ -38,6 +38,7 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.use("/companies", require(apiPath + "/routes/companies"));
 app.use("/locations", require(apiPath + "/routes/locations"));
 app.use("/positions", require(apiPath + "/routes/positions"));
 app.use("/profiles", require(apiPath + "/routes/profiles"));
