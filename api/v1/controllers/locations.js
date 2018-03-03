@@ -1,6 +1,7 @@
 "use strict";
 const Locations = require("../models").locations;
 const sequelize = require("sequelize");
+const constants = require("../lib/constants");
 
 module.exports = {
   create(req, res) {
@@ -34,8 +35,8 @@ module.exports = {
           'address',
           'phone',
           'status_id',
-          [sequelize.fn('to_char', sequelize.col('locations.created_at'), 'DD-MM-YY'), 'created_at'],
-          [sequelize.fn('to_char', sequelize.col('locations.updated_at'), 'DD-MM-YY'), 'updated_at']
+          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('locations.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('locations.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
         ]
       })
       .then(locations => res.json(locations))

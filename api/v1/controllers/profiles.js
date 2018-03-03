@@ -1,6 +1,7 @@
 "use strict";
 const Profiles = require("../models").profiles;
 const sequelize = require("sequelize");
+const constants = require("../lib/constants")
 
 module.exports = {
 
@@ -20,8 +21,8 @@ module.exports = {
         attributes: [
           'id',
           'name',
-          [sequelize.fn('to_char', sequelize.col('profiles.created_at'), 'DD-MM-YY'), 'created_at'],
-          [sequelize.fn('to_char', sequelize.col('profiles.updated_at'), 'DD-MM-YY'), 'updated_at']
+          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('profiles.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('profiles.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
         ]
 
       })
