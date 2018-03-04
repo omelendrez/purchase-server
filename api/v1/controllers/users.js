@@ -29,7 +29,7 @@ module.exports = {
               location_id: req.body.location_id,
               department_id: req.body.department_id,
               position_id: req.body.position_id,
-              password: req.body.password
+              password: constants.DEFAULT_PASSWORD
             })
             .then(users => res.status(201).json(users))
             .catch(error => res.status(400).send(error));
