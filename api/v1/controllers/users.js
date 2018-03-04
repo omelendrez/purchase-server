@@ -27,6 +27,7 @@ module.exports = {
               full_name: fullName.join(" "),
               organization_id: req.body.organization_id,
               location_id: req.body.location_id,
+              department_id: req.body.department_id,
               position_id: req.body.position_id,
               password: req.body.password
             })
@@ -43,6 +44,8 @@ module.exports = {
     Users.belongsTo(Organizations);
     const Locations = require("../models").locations;
     Users.belongsTo(Locations);
+    const Departments = require("../models").departments;
+    Users.belongsTo(Departments);
     const Positions = require("../models").positions;
     Users.belongsTo(Positions);
 
@@ -70,6 +73,12 @@ module.exports = {
             ]
           },
           {
+            model: Departments,
+            attributes: [
+              'name'
+            ]
+          },
+          {
             model: Positions,
             attributes: [
               'name'
@@ -77,6 +86,7 @@ module.exports = {
           }],
           order: [
             ['organization_id', 'ASC'],
+            ['status_id', 'ASC'],
             ['full_name', 'ASC']
           ],
           attributes: [
@@ -86,6 +96,7 @@ module.exports = {
             'status_id',
             'organization_id',
             'location_id',
+            'department_id',
             'position_id',
             'password',
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
@@ -122,6 +133,12 @@ module.exports = {
             ]
           },
           {
+            model: Departments,
+            attributes: [
+              'name'
+            ]
+          },
+          {
             model: Positions,
             attributes: [
               'name'
@@ -138,6 +155,7 @@ module.exports = {
             'organization_id',
             'location_id',
             'position_id',
+            'department_id',
             'password',
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
@@ -228,6 +246,7 @@ module.exports = {
                 full_name: fullName.join(" "),
                 organization_id: req.body.organization_id,
                 location_id: req.body.location_id,
+                department_id: req.body.department_id,
                 position_id: req.body.position_id
               })
               .then(result => {

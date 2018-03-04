@@ -32,33 +32,64 @@ module.exports = {
     const Status = require("../models").status;
     Departments.belongsTo(Status);
 
-    return Departments
-      .findAndCountAll({
-        raw: true,
-        where: {
-          organization_id: req.params.id
-        },
-        include: [{
-          model: Status,
-          attributes: [
-            'name'
-          ]
-        }],
-        order: [
-          ['name', 'ASC']
-        ],
-        attributes: [
-          'id',
-          'name',
-          'status_id',
-          'organization_id',
-          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('departments.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
-          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('departments.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
-        ]
+    if (req.params.id === "1") {
 
-      })
-      .then(departments => res.json(departments))
-      .catch(error => res.status(400).send(error));
+      Departments
+        .findAndCountAll({
+          raw: true,
+          include: [{
+            model: Status,
+            attributes: [
+              'name'
+            ]
+          }],
+          order: [
+            ['status_id', 'ASC'],
+            ['name', 'ASC']
+          ],
+          attributes: [
+            'id',
+            'name',
+            'status_id',
+            'organization_id',
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('departments.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('departments.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
+          ]
+
+        })
+        .then(departments => res.json(departments))
+        .catch(error => res.status(400).send(error));
+    } else {
+      Departments
+        .findAndCountAll({
+          raw: true,
+          where: {
+            organization_id: req.params.id
+          },
+          include: [{
+            model: Status,
+            attributes: [
+              'name'
+            ]
+          }],
+          order: [
+            ['status_id', 'ASC'],
+            ['name', 'ASC']
+          ],
+          attributes: [
+            'id',
+            'name',
+            'status_id',
+            'organization_id',
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('departments.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('departments.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
+          ]
+
+        })
+        .then(departments => res.json(departments))
+        .catch(error => res.status(400).send(error));
+
+    }
   },
 
   delete(req, res) {
