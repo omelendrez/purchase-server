@@ -21,12 +21,18 @@ module.exports = {
     return Organizations
       .findAndCountAll({
         raw: true,
+        where: {
+          id: req.params.id
+        },
         include: [{
           model: Status,
           attributes: [
             'name'
           ]
         }],
+        order: [
+          ['name', 'ASC']
+        ],
         attributes: [
           'id',
           'name',
@@ -57,6 +63,8 @@ module.exports = {
   },
 
   update(req, res) {
+    const name = constants.formatName(req.body.name)
+
     return Organizations
       .findOne({
         where: {
@@ -64,7 +72,7 @@ module.exports = {
         }
       })
       .then(organizations => organizations.update({
-        name: req.body.name
+        name: name
       })
         .then(result => {
           res.json(result);

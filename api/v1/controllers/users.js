@@ -15,7 +15,7 @@ module.exports = {
     })
       .then(users => {
         if (users) {
-          res.json({ error: true, message: constants.findMessage("inUse").replace('{user_name}', req.body.user_name) })
+          res.json({ error: true, message: constants.findMessage("inUse").replace('{name}', req.body.user_name) })
         } else {
           const fullName = req.body.full_name.split(" ")
           for (let i = 0; i < fullName.length; i++) {
@@ -49,6 +49,9 @@ module.exports = {
     Users
       .findAndCountAll({
         raw: true,
+        where: {
+          organization_id: req.params.id
+        },
         include: [{
           model: Status,
           attributes: [
@@ -73,6 +76,9 @@ module.exports = {
             'name'
           ]
         }],
+        order: [
+          ['full_name', 'ASC']
+        ],
         attributes: [
           'id',
           'user_name',
@@ -88,64 +94,6 @@ module.exports = {
       })
       .then(users => res.json(users))
       .catch(error => res.status(400).json(error));
-  },
-
-  findById(req, res) {
-    const Status = require("../models").status;
-    Users.belongsTo(Status);
-    const Organizations = require("../models").organizations;
-    Users.belongsTo(Organizations);
-    const Locations = require("../models").locations;
-    Users.belongsTo(Locations);
-    const Positions = require("../models").positions;
-    Users.belongsTo(Positions);
-    Users
-      .findOne({
-        raw: true,
-        where: {
-          id: req.params.id
-        },
-        include: [{
-          model: Status,
-          attributes: [
-            'name'
-          ]
-        },
-        {
-          model: Organizations,
-          attributes: [
-            'name'
-          ]
-        },
-        {
-          model: Locations,
-          attributes: [
-            'name'
-          ]
-        },
-        {
-          model: Positions,
-          attributes: [
-            'name'
-          ]
-        }],
-        attributes: [
-          'id',
-          'user_name',
-          'full_name',
-          'status_id',
-          'organization_id',
-          'location_id',
-          'position_id',
-          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
-          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
-        ]
-
-      })
-      .then(users => users ? res.json(users) : res.status(404).json({
-        "error": "Not found"
-      }))
-      .catch(error => res.status(400).send(error));
   },
 
   login(req, res) {

@@ -6,13 +6,26 @@ const constants = require("../lib/constants")
 module.exports = {
 
   create(req, res) {
+    const name = constants.formatName(req.body.name)
     return Departments
-      .create({
-        name: req.body.name,
-        organization_id: req.body.organization_id
+      .findOne({
+        where: {
+          name: name,
+          organization_id: req.body.organization_id
+        }
       })
-      .then(departments => res.status(201).send(departments))
-      .catch(error => res.status(400).send(error));
+      .then(departments => {
+        if (departments) {
+          res.json({ error: true, message: constants.findMessage("inUse").replace('{name}', name) })
+        } else {
+          Departments.create({
+            name: name,
+            organization_id: req.body.organization_id
+          })
+            .then(departments => res.status(201).send(departments))
+            .catch(error => res.status(400).send(error));
+        }
+      })
   },
 
   findAll(req, res) {
@@ -22,12 +35,18 @@ module.exports = {
     return Departments
       .findAndCountAll({
         raw: true,
+        where: {
+          organization_id: req.params.id
+        },
         include: [{
           model: Status,
           attributes: [
             'name'
           ]
         }],
+        order: [
+          ['name', 'ASC']
+        ],
         attributes: [
           'id',
           'name',
@@ -59,6 +78,7 @@ module.exports = {
   },
 
   update(req, res) {
+    const name = constants.formatName(req.body.name)
     return Departments
       .findOne({
         where: {
@@ -66,7 +86,7 @@ module.exports = {
         }
       })
       .then(departments => departments.update({
-        name: req.body.name
+        name: name
       })
         .then(result => {
           res.json(result);
