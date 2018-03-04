@@ -4,7 +4,7 @@
     "password": "M1a4$1t4E8r0",
     "database": "escng_purchase",
     "host": "127.0.0.1",
-    "dialect": "postgres",
+    "dialect": "mysql",
     "define": {
       "charset": "utf8",
       "collate": "utf8_general_ci",
@@ -18,7 +18,7 @@
     "password": "M1a4$1t4E8r0",
     "database": "escng_purchase",
     "host": "127.0.0.1",
-    "dialect": "postgres",
+    "dialect": "mysql",
     "define": {
       "charset": "utf8",
       "collate": "utf8_general_ci",
@@ -28,11 +28,11 @@
     "timezone": "-03:00"
   },
   "production": {
-    "username": "escng_purchase",
-    "password": "M1a4$1t4E8r0",
-    "database": "escng_purchase",
-    "host": "127.0.0.1",
-    "dialect": "postgres",
+    "username": "b7a4ee0b5f2681",
+    "password": "cee57d8c",
+    "database": "heroku_23dc8f4ee33fd5a",
+    "host": "us-cdbr-iron-east-05.cleardb.net",
+    "dialect": "mysql",
     "define": {
       "charset": "utf8",
       "collate": "utf8_general_ci",
