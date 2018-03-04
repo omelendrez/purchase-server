@@ -28,9 +28,9 @@
     "timezone": "-03:00"
   },
   "production": {
-    "username": "bd83a92a47dd0f",
-    "password": "2ea13061",
-    "database": "escng_purchase",
+    "username": "b7a4ee0b5f2681",
+    "password": "cee57d8c",
+    "database": "heroku_23dc8f4ee33fd5a",
     "host": "us-cdbr-iron-east-05.cleardb.net",
     "dialect": "mysql",
     "define": {
