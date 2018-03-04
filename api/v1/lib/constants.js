@@ -1,7 +1,7 @@
 'use strict';
 
 const DATE_FORMAT_FUNCTION = 'to_char';
-const DATE_FORMAT_PARAMS = 'DD/MM/YYYY HH24:MI';
+const DATE_FORMAT_PARAMS = 'DD-Mon-YY HH24:MI';
 const UPPER = 'upper';
 
 const errorMessage = [
