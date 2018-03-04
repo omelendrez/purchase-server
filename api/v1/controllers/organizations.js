@@ -30,6 +30,7 @@ module.exports = {
         attributes: [
           'id',
           'name',
+          'status_id',
           [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('organizations.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
           [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('organizations.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
         ]
@@ -46,9 +47,11 @@ module.exports = {
           id: req.params.id
         }
       })
-      .then(organizations => organizations.destroy()
-        .then(result => {
-          res.json(result);
+      .then(organizations => organizations.update({
+        status_id: organizations.status_id === 1 ? 2 : 1
+      })
+        .then(() => {
+          res.json({ status: true });
         }))
       .catch(error => res.status(400).send(error));
   },
@@ -60,7 +63,7 @@ module.exports = {
           id: req.params.id
         }
       })
-      .then(companies => organizations.update({
+      .then(organizations => organizations.update({
         name: req.body.name
       })
         .then(result => {

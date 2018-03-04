@@ -1,25 +1,25 @@
 "use strict";
-const Positions = require("../models").positions;
+const Departments = require("../models").departments;
 const sequelize = require("sequelize");
-const constants = require("../lib/constants");
+const constants = require("../lib/constants")
 
 module.exports = {
+
   create(req, res) {
-    const name = req.body.name.charAt(0).toUpperCase() + req.body.name.slice(1);
-    return Positions
+    return Departments
       .create({
-        name: name,
+        name: req.body.name,
         organization_id: req.body.organization_id
       })
-      .then(positions => res.status(201).send(positions))
+      .then(departments => res.status(201).send(departments))
       .catch(error => res.status(400).send(error));
   },
 
   findAll(req, res) {
     const Status = require("../models").status;
-    Positions.belongsTo(Status);
+    Departments.belongsTo(Status);
 
-    return Positions
+    return Departments
       .findAndCountAll({
         raw: true,
         include: [{
@@ -33,39 +33,41 @@ module.exports = {
           'name',
           'status_id',
           'organization_id',
-          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('positions.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
-          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('positions.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
+          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('departments.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('departments.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
         ]
+
       })
-      .then(positions => res.json(positions))
+      .then(departments => res.json(departments))
       .catch(error => res.status(400).send(error));
   },
+
   delete(req, res) {
-    return Positions
+    return Departments
       .findOne({
         where: {
           id: req.params.id
         }
       })
-      .then(positions => positions.destroy()
-        .then(result => {
-          res.json(result);
+      .then(departments => departments.update({
+        status_id: departments.status_id === 1 ? 2 : 1
+      })
+        .then(() => {
+          res.json({ status: true });
         }))
       .catch(error => res.status(400).send(error));
   },
 
   update(req, res) {
-    const name = req.body.name.charAt(0).toUpperCase() + req.body.name.slice(1);
-    return Positions
+    return Departments
       .findOne({
         where: {
           id: req.params.id
         }
       })
-      .then(positions => positions.update(
-        {
-          name: name
-        })
+      .then(departments => departments.update({
+        name: req.body.name
+      })
         .then(result => {
           res.json(result);
         }))

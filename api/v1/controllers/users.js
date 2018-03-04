@@ -9,7 +9,8 @@ module.exports = {
   create(req, res) {
     Users.findOne({
       where: {
-        user_name: req.body.user_name
+        user_name: req.body.user_name,
+        organization_id: req.body.organization_id
       }
     })
       .then(users => {
@@ -24,6 +25,7 @@ module.exports = {
             .create({
               user_name: req.body.user_name,
               full_name: fullName.join(" "),
+              organization_id: req.body.organization_id,
               location_id: req.body.location_id,
               position_id: req.body.position_id,
               password: req.body.password
@@ -37,6 +39,8 @@ module.exports = {
   findAll(req, res) {
     const Status = require("../models").status;
     Users.belongsTo(Status);
+    const Organizations = require("../models").organizations;
+    Users.belongsTo(Organizations);
     const Locations = require("../models").locations;
     Users.belongsTo(Locations);
     const Positions = require("../models").positions;
@@ -47,6 +51,12 @@ module.exports = {
         raw: true,
         include: [{
           model: Status,
+          attributes: [
+            'name'
+          ]
+        },
+        {
+          model: Organizations,
           attributes: [
             'name'
           ]
@@ -68,6 +78,7 @@ module.exports = {
           'user_name',
           'full_name',
           'status_id',
+          'organization_id',
           'location_id',
           'position_id',
           'password',
@@ -82,6 +93,8 @@ module.exports = {
   findById(req, res) {
     const Status = require("../models").status;
     Users.belongsTo(Status);
+    const Organizations = require("../models").organizations;
+    Users.belongsTo(Organizations);
     const Locations = require("../models").locations;
     Users.belongsTo(Locations);
     const Positions = require("../models").positions;
@@ -99,6 +112,12 @@ module.exports = {
           ]
         },
         {
+          model: Organizations,
+          attributes: [
+            'name'
+          ]
+        },
+        {
           model: Locations,
           attributes: [
             'name'
@@ -115,6 +134,7 @@ module.exports = {
           'user_name',
           'full_name',
           'status_id',
+          'organization_id',
           'location_id',
           'position_id',
           [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
@@ -140,6 +160,7 @@ module.exports = {
           'user_name',
           'full_name',
           'status_id',
+          'organization_id',
           'location_id',
           'position_id',
           'password'
@@ -204,6 +225,7 @@ module.exports = {
               {
                 user_name: req.body.user_name,
                 full_name: fullName.join(" "),
+                organization_id: req.body.organization_id,
                 location_id: req.body.location_id,
                 position_id: req.body.position_id
               })
@@ -216,14 +238,14 @@ module.exports = {
   },
 
   changePassword(req, res) {
-    return Users
+    Users
       .findOne({
         where: {
           id: req.params.id
         }
       })
       .then((users) => {
-        bcrypt.compare(req.body.password, users.password)
+        bcrypt.compare(req.body.password_current, users.password)
           .then((result) => {
             if (result) {
               users.update(
@@ -235,15 +257,16 @@ module.exports = {
                 })
                 .catch(error => res.json({
                   error: error,
-                  msg: "No se pudo cambiar la password"
+                  msg: "The password could not be changed"
                 }))
             } else {
               res.json({
                 error: "wrong password",
-                msg: "Password actual no es correcta"
+                msg: "Current password is incorrect"
               })
             }
           })
+          .catch(error => res.json({ error: error, msg: "bcrypt error" }))
       })
   }
 
