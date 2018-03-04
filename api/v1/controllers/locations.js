@@ -5,8 +5,7 @@ const constants = require("../lib/constants");
 
 module.exports = {
   create(req, res) {
-    const name = req.body.name.charAt(0).toUpperCase() + req.body.name.slice(1);
-
+    const name = constants.formatName(req.body.name)
     return Locations
       .create({
         name: name,

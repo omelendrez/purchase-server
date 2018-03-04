@@ -6,9 +6,10 @@ const constants = require("../lib/constants")
 module.exports = {
 
   create(req, res) {
+    const name = constants.formatName(req.body.name)
     return Organizations
       .create({
-        name: req.body.name
+        name: name
       })
       .then(organizations => res.status(201).send(organizations))
       .catch(error => res.status(400).send(error));

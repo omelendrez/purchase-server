@@ -11,7 +11,7 @@ const errorMessage = [
   }
 ]
 const activeValue = 1
-const inActiveValue = 2
+const inActiveValue = 11
 
 const findMessage = ((key) => {
   const result = errorMessage.find(item => {

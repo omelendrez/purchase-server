@@ -8,16 +8,16 @@ module.exports = function (sequelize, DataTypes) {
       user_name: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          notEmpty: true,
-          len: [1, 50]
-        }
       },
       password: {
         type: DataTypes.STRING,
-        defaultValue: "123"
+        allowNull: false
       },
       full_name: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      email: {
         type: DataTypes.STRING,
         allowNull: false
       },
@@ -37,7 +37,7 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      position_id: {
+      profile_id: {
         type: DataTypes.INTEGER,
         allowNull: false
       }

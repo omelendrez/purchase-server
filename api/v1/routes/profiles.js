@@ -1,5 +1,5 @@
 "use strict";
-const positions = require("../controllers/positions");
+const profiles = require("../controllers/profiles");
 const express = require("express");
 const router = express.Router();
 
@@ -7,9 +7,9 @@ router.use(function(req, res, next) {
   console.log("%s %s %s", req.method, req.url, req.path);
   next();
 });
-router.get("/:id", positions.findAll);
-router.post("/", positions.create);
-router.put("/:id", positions.update);
-router.delete("/:id", positions.delete);
+router.get("/:id", profiles.findAll);
+router.post("/", profiles.create);
+router.put("/:id", profiles.update);
+router.delete("/:id", profiles.delete);
 
 module.exports = router;
