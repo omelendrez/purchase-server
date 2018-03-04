@@ -1,7 +1,7 @@
 "use strict";
 module.exports = function (sequelize, DataTypes) {
-  const Positions = sequelize.define(
-    "positions",
+  const Profiles = sequelize.define(
+    "profiles",
     {
       name: {
         type: DataTypes.STRING,
@@ -17,5 +17,5 @@ module.exports = function (sequelize, DataTypes) {
       }
     });
 
-  return Positions;
+  return Profiles;
 };

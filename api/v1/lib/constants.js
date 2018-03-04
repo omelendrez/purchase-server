@@ -10,6 +10,8 @@ const errorMessage = [
     value: "Name '{name}' is already in use and cannot be used again"
   }
 ]
+const activeValue = 1
+const inActiveValue = 11
 
 const findMessage = ((key) => {
   const result = errorMessage.find(item => {
@@ -29,5 +31,7 @@ module.exports = {
   findMessage,
   formatName,
   UPPER,
-  DEFAULT_PASSWORD
+  DEFAULT_PASSWORD,
+  activeValue,
+  inActiveValue
 }

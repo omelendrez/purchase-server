@@ -6,9 +6,10 @@ const constants = require("../lib/constants")
 module.exports = {
 
   create(req, res) {
+    const name = constants.formatName(req.body.name)
     return Organizations
       .create({
-        name: req.body.name
+        name: name
       })
       .then(organizations => res.status(201).send(organizations))
       .catch(error => res.status(400).send(error));
@@ -81,7 +82,7 @@ module.exports = {
         }
       })
       .then(organizations => organizations.update({
-        status_id: organizations.status_id === 1 ? 11 : 1
+        status_id: organizations.status_id === constants.activeValue ? constants.inActiveValue : constants.activeValue
       })
         .then(() => {
           res.json({ status: true });

@@ -1,27 +1,29 @@
 "use strict";
-const Positions = require("../models").positions;
+const Profiles = require("../models").profiles;
 const sequelize = require("sequelize");
 const constants = require("../lib/constants");
 
 module.exports = {
   create(req, res) {
-    const name = req.body.name.charAt(0).toUpperCase() + req.body.name.slice(1);
-    return Positions
+    const name = constants.formatName(req.body.name)
+    return Profiles
       .create({
         name: name,
         organization_id: req.body.organization_id
       })
-      .then(positions => res.status(201).send(positions))
+      .then(profiles => res.status(201).send(profiles))
       .catch(error => res.status(400).send(error));
   },
 
   findAll(req, res) {
     const Status = require("../models").status;
-    Positions.belongsTo(Status);
+    Profiles.belongsTo(Status);
 
     if (req.params.id === "1") {
+      const Organizations = require("../models").organizations;
+      Profiles.belongsTo(Organizations);
 
-      Positions
+      Profiles
         .findAndCountAll({
           raw: true,
           include: [{
@@ -29,8 +31,14 @@ module.exports = {
             attributes: [
               'name'
             ]
+          }, {
+            model: Organizations,
+            attributes: [
+              'name'
+            ]
           }],
           order: [
+            ['organization_id', 'ASC'],
             ['status_id', 'ASC'],
             ['name', 'ASC']
           ],
@@ -39,14 +47,14 @@ module.exports = {
             'name',
             'status_id',
             'organization_id',
-            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('positions.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
-            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('positions.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('profiles.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('profiles.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
           ]
         })
-        .then(positions => res.json(positions))
+        .then(profiles => res.json(profiles))
         .catch(error => res.status(400).send(error));
     } else {
-      Positions
+      Profiles
         .findAndCountAll({
           raw: true,
           where: {
@@ -67,24 +75,24 @@ module.exports = {
             'name',
             'status_id',
             'organization_id',
-            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('positions.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
-            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('positions.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('profiles.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('profiles.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
           ]
         })
-        .then(positions => res.json(positions))
+        .then(profiles => res.json(profiles))
         .catch(error => res.status(400).send(error));
 
     }
   },
   delete(req, res) {
-    return Positions
+    return Profiles
       .findOne({
         where: {
           id: req.params.id
         }
       })
       .then(departments => departments.update({
-        status_id: departments.status_id === 1 ? 11 : 1
+        status_id: departments.status_id === constants.activeValue ? constants.inActiveValue : constants.activeValue
       })
         .then(() => {
           res.json({ status: true });
@@ -94,13 +102,13 @@ module.exports = {
 
   update(req, res) {
     const name = constants.formatName(req.body.name)
-    return Positions
+    return Profiles
       .findOne({
         where: {
           id: req.params.id
         }
       })
-      .then(positions => positions.update(
+      .then(profiles => profiles.update(
         {
           name: name
         })

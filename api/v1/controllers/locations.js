@@ -5,8 +5,7 @@ const constants = require("../lib/constants");
 
 module.exports = {
   create(req, res) {
-    const name = req.body.name.charAt(0).toUpperCase() + req.body.name.slice(1);
-
+    const name = constants.formatName(req.body.name)
     return Locations
       .create({
         name: name,
@@ -23,6 +22,8 @@ module.exports = {
     Locations.belongsTo(Status);
 
     if (req.params.id === "1") {
+      const Organizations = require("../models").organizations;
+      Locations.belongsTo(Organizations);
 
       Locations
         .findAndCountAll({
@@ -32,8 +33,14 @@ module.exports = {
             attributes: [
               'name'
             ]
+          }, {
+            model: Organizations,
+            attributes: [
+              'name'
+            ]
           }],
           order: [
+            ['organization_id', 'ASC'],
             ['status_id', 'ASC'],
             ['name', 'ASC']
           ],
@@ -91,7 +98,7 @@ module.exports = {
         }
       })
       .then(locations => locations.update({
-        status_id: locations.status_id === 1 ? 11 : 1
+        status_id: locations.status_id === constants.activeValue ? constants.inActiveValue : constants.activeValue
       })
         .then(result => {
           res.json(result);

@@ -41,7 +41,7 @@ app.use(function (req, res, next) {
 app.use("/organizations", require(apiPath + "/routes/organizations"));
 app.use("/departments", require(apiPath + "/routes/departments"));
 app.use("/locations", require(apiPath + "/routes/locations"));
-app.use("/positions", require(apiPath + "/routes/positions"));
+app.use("/profiles", require(apiPath + "/routes/profiles"));
 app.use("/status", require(apiPath + "/routes/status"));
 app.use("/users", require(apiPath + "/routes/users"));
 

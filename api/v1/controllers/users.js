@@ -23,12 +23,13 @@ module.exports = {
           }
           Users
             .create({
-              user_name: req.body.user_name,
+              user_name: req.body.user_name.toLowerCase(),
               full_name: fullName.join(" "),
+              email: req.body.email,
               organization_id: req.body.organization_id,
               location_id: req.body.location_id,
               department_id: req.body.department_id,
-              position_id: req.body.position_id,
+              profile_id: req.body.profile_id,
               password: constants.DEFAULT_PASSWORD
             })
             .then(users => res.status(201).json(users))
@@ -40,14 +41,18 @@ module.exports = {
   findAll(req, res) {
     const Status = require("../models").status;
     Users.belongsTo(Status);
+
     const Organizations = require("../models").organizations;
     Users.belongsTo(Organizations);
+
     const Locations = require("../models").locations;
     Users.belongsTo(Locations);
+
     const Departments = require("../models").departments;
     Users.belongsTo(Departments);
-    const Positions = require("../models").positions;
-    Users.belongsTo(Positions);
+
+    const Profiles = require("../models").profiles;
+    Users.belongsTo(Profiles);
 
     if (req.params.id === "1") {
 
@@ -79,7 +84,7 @@ module.exports = {
             ]
           },
           {
-            model: Positions,
+            model: Profiles,
             attributes: [
               'name'
             ]
@@ -93,11 +98,12 @@ module.exports = {
             'id',
             'user_name',
             'full_name',
+            'email',
             'status_id',
             'organization_id',
             'location_id',
             'department_id',
-            'position_id',
+            'profile_id',
             'password',
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
@@ -139,7 +145,7 @@ module.exports = {
             ]
           },
           {
-            model: Positions,
+            model: Profiles,
             attributes: [
               'name'
             ]
@@ -151,10 +157,11 @@ module.exports = {
             'id',
             'user_name',
             'full_name',
+            'email',
             'status_id',
             'organization_id',
             'location_id',
-            'position_id',
+            'profile_id',
             'department_id',
             'password',
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
@@ -179,9 +186,10 @@ module.exports = {
           'user_name',
           'full_name',
           'status_id',
+          'email',
           'organization_id',
           'location_id',
-          'position_id',
+          'profile_id',
           'password'
         ]
       })
@@ -195,9 +203,12 @@ module.exports = {
                 "id": 0
               })
             }
-          })
+          }).catch(error => res.json({ error: error, message: 'bcrypt error' }))
       })
-      .catch(error => res.status(400).send(error));
+      .catch(() => res.json({
+        "id": 0
+      })
+      );
   },
 
   delete(req, res) {
@@ -208,7 +219,7 @@ module.exports = {
         }
       })
       .then(users => users.update({
-        status_id: users.status_id === 1 ? 11 : 1
+        status_id: users.status_id === constants.activeValue ? constants.inActiveValue : constants.activeValue
       })
         .then(() => {
           res.json({ status: true });
@@ -242,12 +253,13 @@ module.exports = {
             })
             .then(users => users.update(
               {
-                user_name: req.body.user_name,
+                user_name: req.body.user_name.toLowerCase(),
                 full_name: fullName.join(" "),
+                email: req.body.email,
                 organization_id: req.body.organization_id,
                 location_id: req.body.location_id,
                 department_id: req.body.department_id,
-                position_id: req.body.position_id
+                profile_id: req.body.profile_id
               })
               .then(result => {
                 res.json(result);
