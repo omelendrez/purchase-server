@@ -1,11 +1,13 @@
 'use strict';
 
 const DATE_FORMAT_FUNCTION = 'to_char';
-const DATE_FORMAT_PARAMS = 'DD-MM-YYYY';
+const DATE_FORMAT_PARAMS = 'DD-MM-YY HH:MM:SS';
+const UPPER = 'upper';
+
 const errorMessage = [
   {
     key: "inUse",
-    value: "User name '{user_name}' is already in use and cannot be used again"
+    value: "Name '{name}' is already in use and cannot be used again"
   }
 ]
 
@@ -16,8 +18,15 @@ const findMessage = ((key) => {
   return result.value
 })
 
+const formatName = ((name) => {
+  return name.toUpperCase()
+  // return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
+})
+
 module.exports = {
   DATE_FORMAT_FUNCTION,
   DATE_FORMAT_PARAMS,
-  findMessage
+  findMessage,
+  formatName,
+  UPPER
 }

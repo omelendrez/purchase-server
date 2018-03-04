@@ -22,12 +22,18 @@ module.exports = {
     return Positions
       .findAndCountAll({
         raw: true,
+        where: {
+          organization_id: req.params.id
+        },
         include: [{
           model: Status,
           attributes: [
             'name'
           ]
         }],
+        order: [
+          ['name', 'ASC']
+        ],
         attributes: [
           'id',
           'name',
@@ -55,7 +61,7 @@ module.exports = {
   },
 
   update(req, res) {
-    const name = req.body.name.charAt(0).toUpperCase() + req.body.name.slice(1);
+    const name = constants.formatName(req.body.name)
     return Positions
       .findOne({
         where: {
