@@ -11,7 +11,8 @@ module.exports = {
       .create({
         name: name,
         address: req.body.address,
-        phone: req.body.phone
+        phone: req.body.phone,
+        organization_id: req.body.organization_id
       })
       .then(locations => res.status(201).json(locations))
       .catch(error => res.status(400).json(error));
@@ -35,6 +36,7 @@ module.exports = {
           'address',
           'phone',
           'status_id',
+          'organization_id',
           [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('locations.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
           [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('locations.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
         ]

@@ -1,9 +1,13 @@
 "use strict";
 module.exports = function (sequelize, DataTypes) {
-  const Status = sequelize.define("status", {
+  const Organizations = sequelize.define("organizations", {
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
+    },
+    status_id: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
     }
   },
     {
@@ -15,5 +19,5 @@ module.exports = function (sequelize, DataTypes) {
       ]
     });
 
-  return Status;
+  return Organizations;
 };

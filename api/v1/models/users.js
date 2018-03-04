@@ -25,6 +25,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         defaultValue: 1
       },
+      organization_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
       location_id: {
         type: DataTypes.INTEGER,
         allowNull: false
@@ -44,6 +48,15 @@ module.exports = function (sequelize, DataTypes) {
     }
   );
   Users.beforeCreate((users) => {
+    return bcrypt.hash(users.password, 10)
+      .then(hash => {
+        users.password = hash;
+      })
+      .catch(() => {
+        throw new Error();
+      });
+  });
+  Users.beforeUpdate((users) => {
     return bcrypt.hash(users.password, 10)
       .then(hash => {
         users.password = hash;
