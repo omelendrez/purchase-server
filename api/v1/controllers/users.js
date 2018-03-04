@@ -195,9 +195,12 @@ module.exports = {
                 "id": 0
               })
             }
-          })
+          }).catch(error => res.json({ error: error, message: 'bcrypt error' }))
       })
-      .catch(error => res.status(400).send(error));
+      .catch(() => res.json({
+        "id": 0
+      })
+      );
   },
 
   delete(req, res) {
