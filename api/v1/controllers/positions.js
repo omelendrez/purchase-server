@@ -84,7 +84,7 @@ module.exports = {
         }
       })
       .then(departments => departments.update({
-        status_id: departments.status_id === 1 ? 2 : 1
+        status_id: departments.status_id === 1 ? 11 : 1
       })
         .then(() => {
           res.json({ status: true });
