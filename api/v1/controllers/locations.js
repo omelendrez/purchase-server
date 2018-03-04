@@ -91,7 +91,7 @@ module.exports = {
         }
       })
       .then(locations => locations.update({
-        status_id: locations.status_id === 1 ? 2 : 1
+        status_id: locations.status_id === 1 ? 11 : 1
       })
         .then(result => {
           res.json(result);
