@@ -17,33 +17,59 @@ module.exports = {
   findAll(req, res) {
     const Status = require("../models").status;
     Organizations.belongsTo(Status);
-
-    return Organizations
-      .findAndCountAll({
-        raw: true,
-        where: {
-          id: req.params.id
-        },
-        include: [{
-          model: Status,
+    if (req.params.id === "1") {
+      Organizations
+        .findAndCountAll({
+          raw: true,
+          include: [{
+            model: Status,
+            attributes: [
+              'name'
+            ]
+          }],
+          order: [
+            ['name', 'ASC']
+          ],
           attributes: [
-            'name'
+            'id',
+            'name',
+            'status_id',
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('organizations.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('organizations.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
           ]
-        }],
-        order: [
-          ['name', 'ASC']
-        ],
-        attributes: [
-          'id',
-          'name',
-          'status_id',
-          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('organizations.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
-          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('organizations.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
-        ]
 
-      })
-      .then(organizations => res.json(organizations))
-      .catch(error => res.status(400).send(error));
+        })
+        .then(organizations => res.json(organizations))
+        .catch(error => res.status(400).send(error));
+
+    } else {
+      Organizations
+        .findAndCountAll({
+          raw: true,
+          where: {
+            id: req.params.id
+          },
+          include: [{
+            model: Status,
+            attributes: [
+              'name'
+            ]
+          }],
+          order: [
+            ['name', 'ASC']
+          ],
+          attributes: [
+            'id',
+            'name',
+            'status_id',
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('organizations.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('organizations.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
+          ]
+
+        })
+        .then(organizations => res.json(organizations))
+        .catch(error => res.status(400).send(error));
+    }
   },
 
   delete(req, res) {

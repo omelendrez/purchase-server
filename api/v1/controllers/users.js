@@ -46,54 +46,107 @@ module.exports = {
     const Positions = require("../models").positions;
     Users.belongsTo(Positions);
 
-    Users
-      .findAndCountAll({
-        raw: true,
-        where: {
-          organization_id: req.params.id
-        },
-        include: [{
-          model: Status,
+    if (req.params.id === "1") {
+
+      Users
+        .findAndCountAll({
+          raw: true,
+          include: [{
+            model: Status,
+            attributes: [
+              'name'
+            ]
+          },
+          {
+            model: Organizations,
+            attributes: [
+              'name'
+            ]
+          },
+          {
+            model: Locations,
+            attributes: [
+              'name'
+            ]
+          },
+          {
+            model: Positions,
+            attributes: [
+              'name'
+            ]
+          }],
+          order: [
+            ['organization_id', 'ASC'],
+            ['full_name', 'ASC']
+          ],
           attributes: [
-            'name'
+            'id',
+            'user_name',
+            'full_name',
+            'status_id',
+            'organization_id',
+            'location_id',
+            'position_id',
+            'password',
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
           ]
-        },
-        {
-          model: Organizations,
+        })
+        .then(users => res.json(users))
+        .catch(error => res.status(400).json(error));
+
+    } else {
+
+      Users
+        .findAndCountAll({
+          raw: true,
+          where: {
+            organization_id: req.params.id
+          },
+          include: [{
+            model: Status,
+            attributes: [
+              'name'
+            ]
+          },
+          {
+            model: Organizations,
+            attributes: [
+              'name'
+            ]
+          },
+          {
+            model: Locations,
+            attributes: [
+              'name'
+            ]
+          },
+          {
+            model: Positions,
+            attributes: [
+              'name'
+            ]
+          }],
+          order: [
+            ['full_name', 'ASC']
+          ],
           attributes: [
-            'name'
+            'id',
+            'user_name',
+            'full_name',
+            'status_id',
+            'organization_id',
+            'location_id',
+            'position_id',
+            'password',
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
           ]
-        },
-        {
-          model: Locations,
-          attributes: [
-            'name'
-          ]
-        },
-        {
-          model: Positions,
-          attributes: [
-            'name'
-          ]
-        }],
-        order: [
-          ['full_name', 'ASC']
-        ],
-        attributes: [
-          'id',
-          'user_name',
-          'full_name',
-          'status_id',
-          'organization_id',
-          'location_id',
-          'position_id',
-          'password',
-          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
-          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
-        ]
-      })
-      .then(users => res.json(users))
-      .catch(error => res.status(400).json(error));
+        })
+        .then(users => res.json(users))
+        .catch(error => res.status(400).json(error));
+
+    }
   },
 
   login(req, res) {
