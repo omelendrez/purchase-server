@@ -20,6 +20,8 @@ module.exports = {
     Positions.belongsTo(Status);
 
     if (req.params.id === "1") {
+      const Organizations = require("../models").organizations;
+      Positions.belongsTo(Organizations);
 
       Positions
         .findAndCountAll({
@@ -29,8 +31,14 @@ module.exports = {
             attributes: [
               'name'
             ]
+          }, {
+            model: Organizations,
+            attributes: [
+              'name'
+            ]
           }],
           order: [
+            ['organization_id', 'ASC'],
             ['status_id', 'ASC'],
             ['name', 'ASC']
           ],
@@ -84,7 +92,7 @@ module.exports = {
         }
       })
       .then(departments => departments.update({
-        status_id: departments.status_id === 1 ? 11 : 1
+        status_id: departments.status_id === constants.activeValue ? constants.inActiveValue : constants.activeValue
       })
         .then(() => {
           res.json({ status: true });
