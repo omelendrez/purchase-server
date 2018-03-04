@@ -19,32 +19,62 @@ module.exports = {
     const Status = require("../models").status;
     Positions.belongsTo(Status);
 
-    return Positions
-      .findAndCountAll({
-        raw: true,
-        where: {
-          organization_id: req.params.id
-        },
-        include: [{
-          model: Status,
+    if (req.params.id === "1") {
+
+      Positions
+        .findAndCountAll({
+          raw: true,
+          include: [{
+            model: Status,
+            attributes: [
+              'name'
+            ]
+          }],
+          order: [
+            ['status_id', 'ASC'],
+            ['name', 'ASC']
+          ],
           attributes: [
-            'name'
+            'id',
+            'name',
+            'status_id',
+            'organization_id',
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('positions.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('positions.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
           ]
-        }],
-        order: [
-          ['name', 'ASC']
-        ],
-        attributes: [
-          'id',
-          'name',
-          'status_id',
-          'organization_id',
-          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('positions.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
-          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('positions.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
-        ]
-      })
-      .then(positions => res.json(positions))
-      .catch(error => res.status(400).send(error));
+        })
+        .then(positions => res.json(positions))
+        .catch(error => res.status(400).send(error));
+    } else {
+      Positions
+        .findAndCountAll({
+          raw: true,
+          where: {
+            organization_id: req.params.id
+          },
+          include: [{
+            model: Status,
+            attributes: [
+              'name'
+            ]
+          }],
+          order: [
+            ['status_id', 'ASC'],
+            ['name', 'ASC']
+          ],
+          attributes: [
+            'id',
+            'name',
+            'status_id',
+            'organization_id',
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('positions.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('positions.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
+          ]
+        })
+        .then(positions => res.json(positions))
+        .catch(error => res.status(400).send(error));
+
+    }
   },
   delete(req, res) {
     return Positions
@@ -53,9 +83,11 @@ module.exports = {
           id: req.params.id
         }
       })
-      .then(positions => positions.destroy()
-        .then(result => {
-          res.json(result);
+      .then(departments => departments.update({
+        status_id: departments.status_id === 1 ? 2 : 1
+      })
+        .then(() => {
+          res.json({ status: true });
         }))
       .catch(error => res.status(400).send(error));
   },

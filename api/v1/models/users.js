@@ -33,6 +33,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: false
       },
+      department_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
       position_id: {
         type: DataTypes.INTEGER,
         allowNull: false
