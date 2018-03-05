@@ -1,7 +1,7 @@
 'use strict';
 
 const DATE_FORMAT_FUNCTION = 'date_format'; // 'to_char'
-const DATE_FORMAT_PARAMS = '%d-%b-%y' // 'DD-Mon-YY HH24:MI';
+const DATE_FORMAT_PARAMS = '%d-%b-%y %H:%i' // 'DD-Mon-YY HH24:MI';
 const UPPER = 'upper';
 const DEFAULT_PASSWORD = 'purchase+'
 const errorMessage = [
