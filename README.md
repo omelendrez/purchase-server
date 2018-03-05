@@ -1,2 +1,2 @@
-# schedule - backend
-## An app to manage work schedule for teams# purchase-server
+# purchase-server
+## An app to manage work schedule for teams
