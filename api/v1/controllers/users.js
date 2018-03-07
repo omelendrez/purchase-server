@@ -256,7 +256,6 @@ module.exports = {
                 user_name: req.body.user_name.toLowerCase(),
                 full_name: fullName.join(" "),
                 email: req.body.email,
-                organization_id: req.body.organization_id,
                 location_id: req.body.location_id,
                 department_id: req.body.department_id,
                 profile_id: req.body.profile_id
