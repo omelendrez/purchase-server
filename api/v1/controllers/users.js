@@ -115,10 +115,10 @@ module.exports = {
 
       Users
         .findAndCountAll({
-          raw: true,
           where: {
             organization_id: req.params.id
           },
+          raw: true,
           include: [{
             model: Status,
             attributes: [
@@ -150,6 +150,8 @@ module.exports = {
             ]
           }],
           order: [
+            ['organization_id', 'ASC'],
+            ['status_id', 'ASC'],
             ['full_name', 'ASC']
           ],
           attributes: [
@@ -160,8 +162,8 @@ module.exports = {
             'status_id',
             'organization_id',
             'location_id',
+            'department_id',
             'profile_id',
-            'department_id'
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
           ]
