@@ -7,10 +7,6 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING,
         allowNull: false
       },
-      organization_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
       status_id: {
         type: DataTypes.INTEGER,
         defaultValue: 1

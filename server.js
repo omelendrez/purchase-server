@@ -45,6 +45,8 @@ app.use("/profiles", require(apiPath + "/routes/profiles"));
 app.use("/status", require(apiPath + "/routes/status"));
 app.use("/users", require(apiPath + "/routes/users"));
 
+app.use("/projects", require(apiPath + "/routes/projects"));
+
 app.use("/login", require(apiPath + "/routes/login"));
 
 app.use(function (req, res, next) {

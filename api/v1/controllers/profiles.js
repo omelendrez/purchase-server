@@ -19,70 +19,30 @@ module.exports = {
     const Status = require("../models").status;
     Profiles.belongsTo(Status);
 
-    if (req.params.id === "1") {
-      const Organizations = require("../models").organizations;
-      Profiles.belongsTo(Organizations);
 
-      Profiles
-        .findAndCountAll({
-          raw: true,
-          include: [{
-            model: Status,
-            attributes: [
-              'name'
-            ]
-          }, {
-            model: Organizations,
-            attributes: [
-              'name'
-            ]
-          }],
-          order: [
-            ['organization_id', 'ASC'],
-            ['status_id', 'ASC'],
-            ['name', 'ASC']
-          ],
+    Profiles
+      .findAndCountAll({
+        raw: true,
+        include: [{
+          model: Status,
           attributes: [
-            'id',
-            'name',
-            'status_id',
-            'organization_id',
-            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('profiles.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
-            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('profiles.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
+            'name'
           ]
-        })
-        .then(profiles => res.json(profiles))
-        .catch(error => res.status(400).send(error));
-    } else {
-      Profiles
-        .findAndCountAll({
-          raw: true,
-          where: {
-            organization_id: req.params.id
-          },
-          include: [{
-            model: Status,
-            attributes: [
-              'name'
-            ]
-          }],
-          order: [
-            ['status_id', 'ASC'],
-            ['name', 'ASC']
-          ],
-          attributes: [
-            'id',
-            'name',
-            'status_id',
-            'organization_id',
-            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('profiles.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
-            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('profiles.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
-          ]
-        })
-        .then(profiles => res.json(profiles))
-        .catch(error => res.status(400).send(error));
-
-    }
+        }],
+        order: [
+          ['status_id', 'ASC'],
+          ['name', 'ASC']
+        ],
+        attributes: [
+          'id',
+          'name',
+          'status_id',
+          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('profiles.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('profiles.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
+        ]
+      })
+      .then(profiles => res.json(profiles))
+      .catch(error => res.status(400).send(error));
   },
   delete(req, res) {
     return Profiles
