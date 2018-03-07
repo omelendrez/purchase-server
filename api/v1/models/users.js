@@ -61,13 +61,16 @@ module.exports = function (sequelize, DataTypes) {
       });
   });
   Users.beforeUpdate((users) => {
-    return bcrypt.hash(users.password, 10)
-      .then(hash => {
-        users.password = hash;
-      })
-      .catch(() => {
-        throw new Error();
-      });
+    if (users.changed('password')) {
+      return bcrypt.hash(users.password, 10)
+        .then(hash => {
+          users.password = hash;
+        })
+        .catch(() => {
+          throw new Error();
+        });
+    }
   });
+
   return Users;
 };
