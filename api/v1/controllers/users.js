@@ -104,7 +104,6 @@ module.exports = {
             'location_id',
             'department_id',
             'profile_id',
-            'password',
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
           ]
@@ -162,8 +161,7 @@ module.exports = {
             'organization_id',
             'location_id',
             'profile_id',
-            'department_id',
-            'password',
+            'department_id'
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('users.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
           ]
@@ -300,6 +298,28 @@ module.exports = {
           })
           .catch(error => res.json({ error: error, msg: "bcrypt error" }))
       })
-  }
+  },
 
+  resetPassword(req, res) {
+    Users
+      .findOne({
+        where: {
+          id: req.params.id
+        }
+      })
+      .then((users) => {
+        users.update(
+          {
+            password: req.body.password || constants.DEFAULT_PASSWORD
+          })
+          .then(result => {
+            res.json(result);
+          })
+          .catch(error => res.json({
+            error: error,
+            msg: "The password could not be reset"
+          }))
+      })
+      .catch(error => res.json({ error: error, msg: "bcrypt error" }))
+  }
 };
