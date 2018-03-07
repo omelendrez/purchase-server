@@ -20,10 +20,10 @@ module.exports = {
   findAll(req, res) {
     const Status = require("../models").status;
     Locations.belongsTo(Status);
+    const Organizations = require("../models").organizations;
+    Locations.belongsTo(Organizations);
 
     if (req.params.id === "1") {
-      const Organizations = require("../models").organizations;
-      Locations.belongsTo(Organizations);
 
       Locations
         .findAndCountAll({
@@ -66,6 +66,11 @@ module.exports = {
           },
           include: [{
             model: Status,
+            attributes: [
+              'name'
+            ]
+          }, {
+            model: Organizations,
             attributes: [
               'name'
             ]
