@@ -39,14 +39,15 @@ app.use(function (req, res, next) {
 });
 
 app.use("/organizations", require(apiPath + "/routes/organizations"));
-app.use("/departments", require(apiPath + "/routes/departments"));
-app.use("/locations", require(apiPath + "/routes/locations"));
 app.use("/profiles", require(apiPath + "/routes/profiles"));
 app.use("/permissions", require(apiPath + "/routes/permissions"));
 app.use("/status", require(apiPath + "/routes/status"));
-app.use("/users", require(apiPath + "/routes/users"));
 
+app.use("/users", require(apiPath + "/routes/users"));
+app.use("/departments", require(apiPath + "/routes/departments"));
+app.use("/locations", require(apiPath + "/routes/locations"));
 app.use("/projects", require(apiPath + "/routes/projects"));
+app.use("/vendors", require(apiPath + "/routes/vendors"));
 
 app.use("/login", require(apiPath + "/routes/login"));
 
