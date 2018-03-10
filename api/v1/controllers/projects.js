@@ -19,7 +19,7 @@ module.exports = {
         });
       } else {
         Projects.create({
-          code: req.body.code,
+          code: req.body.code.toUpperCase(),
           name: name,
           organization_id: req.body.organization_id
         })
@@ -153,7 +153,8 @@ module.exports = {
       .then(projects =>
         projects
           .update({
-            code: req.body.code,
+            code: req.body.code.toUpperCase(),
+            organization_id: req.body.organization_id,
             name: name
           })
           .then(result => {

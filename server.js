@@ -45,12 +45,15 @@ app.use("/status", require(apiPath + "/routes/status"));
 app.use("/units", require(apiPath + "/routes/units"));
 
 app.use("/users", require(apiPath + "/routes/users"));
+app.use("/login", require(apiPath + "/routes/login"));
+
 app.use("/departments", require(apiPath + "/routes/departments"));
 app.use("/locations", require(apiPath + "/routes/locations"));
 app.use("/projects", require(apiPath + "/routes/projects"));
 app.use("/vendors", require(apiPath + "/routes/vendors"));
 
-app.use("/login", require(apiPath + "/routes/login"));
+app.use("/requisitions", require(apiPath + "/routes/requisitions"));
+
 
 app.use(function (req, res, next) {
   if (!req.route)
