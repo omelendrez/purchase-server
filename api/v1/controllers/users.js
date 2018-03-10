@@ -7,35 +7,25 @@ const bcrypt = require("bcrypt");
 
 module.exports = {
   create(req, res) {
-    Users.findOne({
-      where: {
-        user_name: req.body.user_name,
-        organization_id: req.body.organization_id
-      }
-    })
-      .then(users => {
-        if (users) {
-          res.json({ error: true, message: constants.findMessage("inUse").replace('{name}', req.body.user_name) })
-        } else {
-          const fullName = req.body.full_name.split(" ")
-          for (let i = 0; i < fullName.length; i++) {
-            fullName[i] = fullName[i].charAt(0).toUpperCase() + fullName[i].slice(1)
-          }
-          Users
-            .create({
-              user_name: req.body.user_name.toLowerCase(),
-              full_name: fullName.join(" "),
-              email: req.body.email,
-              organization_id: req.body.organization_id,
-              location_id: req.body.location_id,
-              department_id: req.body.department_id,
-              profile_id: req.body.profile_id,
-              password: constants.DEFAULT_PASSWORD
-            })
-            .then(users => res.status(201).json(users))
-            .catch(error => res.status(400).send(error));
-        }
+    const fullName = req.body.full_name.split(" ")
+    for (let i = 0; i < fullName.length; i++) {
+      fullName[i] = fullName[i].charAt(0).toUpperCase() + fullName[i].slice(1)
+    }
+    Users
+      .create({
+        user_name: req.body.user_name.toLowerCase(),
+        full_name: fullName.join(" "),
+        email: req.body.email,
+        organization_id: req.body.organization_id,
+        location_id: req.body.location_id,
+        department_id: req.body.department_id,
+        profile_id: req.body.profile_id,
+        password: constants.DEFAULT_PASSWORD
       })
+      .then(users => res.status(201).json(users))
+      .catch(error => {
+        constants.catchError(error, req.body.user_name, res)
+      });
   },
 
   findAll(req, res) {
@@ -229,43 +219,32 @@ module.exports = {
 
   update(req, res) {
 
-    Users.findOne({
-      where: {
-        user_name: req.body.user_name,
-        id: {
-          [Op.ne]: req.body.id
-        }
-      }
-    })
-      .then(users => {
-        if (users) {
-          res.json({ error: true, message: constants.findMessage("inUse") })
-        } else {
-          const fullName = req.body.full_name.split(" ")
-          for (let i = 0; i < fullName.length; i++) {
-            fullName[i] = fullName[i].charAt(0).toUpperCase() + fullName[i].slice(1)
-          }
-          Users
-            .findOne({
-              where: {
-                id: req.params.id
-              }
-            })
-            .then(users => users.update(
-              {
-                user_name: req.body.user_name.toLowerCase(),
-                full_name: fullName.join(" "),
-                email: req.body.email,
-                location_id: req.body.location_id,
-                department_id: req.body.department_id,
-                profile_id: req.body.profile_id
-              })
-              .then(result => {
-                res.json(result);
-              }))
-            .catch(error => res.status(400).send(error));
+    const fullName = req.body.full_name.split(" ")
+    for (let i = 0; i < fullName.length; i++) {
+      fullName[i] = fullName[i].charAt(0).toUpperCase() + fullName[i].slice(1)
+    }
+    Users
+      .findOne({
+        where: {
+          id: req.params.id
         }
       })
+      .then(users => users.update(
+        {
+          user_name: req.body.user_name.toLowerCase(),
+          full_name: fullName.join(" "),
+          email: req.body.email,
+          location_id: req.body.location_id,
+          department_id: req.body.department_id,
+          profile_id: req.body.profile_id
+        })
+        .then(result => {
+          res.json(result);
+        })
+        .catch(error => {
+          constants.catchError(error, req.body.user_name, res)
+        }))
+      .catch(error => res.status(400).send(error));
   },
 
   changePassword(req, res) {

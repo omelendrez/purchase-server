@@ -42,6 +42,7 @@ app.use("/organizations", require(apiPath + "/routes/organizations"));
 app.use("/profiles", require(apiPath + "/routes/profiles"));
 app.use("/permissions", require(apiPath + "/routes/permissions"));
 app.use("/status", require(apiPath + "/routes/status"));
+app.use("/units", require(apiPath + "/routes/units"));
 
 app.use("/users", require(apiPath + "/routes/users"));
 app.use("/departments", require(apiPath + "/routes/departments"));

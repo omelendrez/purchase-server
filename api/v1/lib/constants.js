@@ -7,9 +7,17 @@ const DEFAULT_PASSWORD = 'purchase+'
 const errorMessage = [
   {
     key: "inUse",
-    value: "Name '{name}' is already in use and cannot be used again"
+    value: "'{name}' is already in use"
   }
 ]
+
+const catchError = ((error, fld, res) => {
+  if (error.name === "SequelizeUniqueConstraintError") {
+    res.json({ error: true, message: findMessage("inUse").replace('{name}', fld) });
+  } else {
+    res.status(400).send(error);
+  }
+})
 const activeValue = 1
 const inActiveValue = 11
 
@@ -33,5 +41,6 @@ module.exports = {
   UPPER,
   DEFAULT_PASSWORD,
   activeValue,
-  inActiveValue
+  inActiveValue,
+  catchError
 }
