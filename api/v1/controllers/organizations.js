@@ -12,7 +12,10 @@ module.exports = {
         name: name
       })
       .then(organizations => res.status(201).send(organizations))
-      .catch(error => res.status(400).send(error));
+      .catch(error => {
+        constants.catchError(error, req.body.name, res)
+      });
+
   },
 
   findAll(req, res) {
@@ -29,7 +32,6 @@ module.exports = {
             ]
           }],
           order: [
-            ['status_id', 'ASC'],
             ['name', 'ASC']
           ],
           attributes: [
@@ -105,7 +107,9 @@ module.exports = {
         .then(result => {
           res.json(result);
         }))
-      .catch(error => res.status(400).send(error));
+      .catch(error => {
+        constants.catchError(error, req.body.name, res)
+      });
   }
 
 };

@@ -19,7 +19,7 @@ module.exports = {
         });
       } else {
         Projects.create({
-          code: req.body.code,
+          code: req.body.code.toUpperCase(),
           name: name,
           organization_id: req.body.organization_id
         })
@@ -51,7 +51,6 @@ module.exports = {
         ],
         order: [
           ["organization_id", "ASC"],
-          ["status_id", "ASC"],
           ["name", "ASC"]
         ],
         attributes: [
@@ -92,7 +91,9 @@ module.exports = {
             attributes: ["name"]
           }
         ],
-        order: [["status_id", "ASC"], ["name", "ASC"]],
+        order: [
+          ["name", "ASC"]
+        ],
         attributes: [
           "id",
           "code",
@@ -153,7 +154,8 @@ module.exports = {
       .then(projects =>
         projects
           .update({
-            code: req.body.code,
+            code: req.body.code.toUpperCase(),
+            organization_id: req.body.organization_id,
             name: name
           })
           .then(result => {

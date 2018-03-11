@@ -2,14 +2,24 @@
 
 const DATE_FORMAT_FUNCTION = 'date_format'; // 'to_char'
 const DATE_FORMAT_PARAMS = '%d-%b-%y %H:%i' // 'DD-Mon-YY HH24:MI';
+const SHORT_DATE_FORMAT_PARAMS = '%d-%b-%y' // 'DD-Mon-YY';
+const DEFAULT_DATE_FORMAT_PARAMS = '%Y-%m-%d';
 const UPPER = 'upper';
 const DEFAULT_PASSWORD = 'purchase+'
 const errorMessage = [
   {
     key: "inUse",
-    value: "Name '{name}' is already in use and cannot be used again"
+    value: "'{name}' is already in use"
   }
 ]
+
+const catchError = ((error, fld, res) => {
+  if (error.name === "SequelizeUniqueConstraintError") {
+    res.json({ error: true, message: findMessage("inUse").replace('{name}', fld) });
+  } else {
+    res.status(400).send(error);
+  }
+})
 const activeValue = 1
 const inActiveValue = 11
 
@@ -28,10 +38,13 @@ const formatName = ((name) => {
 module.exports = {
   DATE_FORMAT_FUNCTION,
   DATE_FORMAT_PARAMS,
+  SHORT_DATE_FORMAT_PARAMS,
+  DEFAULT_DATE_FORMAT_PARAMS,
   findMessage,
   formatName,
   UPPER,
   DEFAULT_PASSWORD,
   activeValue,
-  inActiveValue
+  inActiveValue,
+  catchError
 }
