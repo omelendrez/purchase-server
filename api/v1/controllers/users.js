@@ -1,7 +1,6 @@
 "use strict";
 const Users = require("../models").users;
 const sequelize = require("sequelize");
-const Op = sequelize.Op
 const constants = require("../lib/constants")
 const bcrypt = require("bcrypt");
 
@@ -81,7 +80,6 @@ module.exports = {
           }],
           order: [
             ['organization_id', 'ASC'],
-            ['status_id', 'ASC'],
             ['full_name', 'ASC']
           ],
           attributes: [
@@ -140,8 +138,6 @@ module.exports = {
             ]
           }],
           order: [
-            ['organization_id', 'ASC'],
-            ['status_id', 'ASC'],
             ['full_name', 'ASC']
           ],
           attributes: [

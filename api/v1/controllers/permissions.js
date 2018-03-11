@@ -42,7 +42,6 @@ module.exports = {
           ]
         }],
         order: [
-          ['status_id', 'ASC'],
           ['name', 'ASC']
         ],
         attributes: [

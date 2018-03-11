@@ -51,7 +51,6 @@ module.exports = {
         ],
         order: [
           ["organization_id", "ASC"],
-          ["status_id", "ASC"],
           ["name", "ASC"]
         ],
         attributes: [
@@ -92,7 +91,9 @@ module.exports = {
             attributes: ["name"]
           }
         ],
-        order: [["status_id", "ASC"], ["name", "ASC"]],
+        order: [
+          ["name", "ASC"]
+        ],
         attributes: [
           "id",
           "code",

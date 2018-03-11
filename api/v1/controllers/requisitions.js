@@ -87,7 +87,7 @@ module.exports = {
             ]
           }],
           order: [
-            ['status_id', 'ASC'],
+            ['organization_id', 'ASC'],
             ['number', 'ASC']
           ],
           attributes: [
@@ -138,7 +138,6 @@ module.exports = {
             ]
           }],
           order: [
-            ['status_id', 'ASC'],
             ['number', 'ASC']
           ],
           attributes: [
