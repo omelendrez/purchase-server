@@ -53,6 +53,7 @@ app.use("/projects", require(apiPath + "/routes/projects"));
 app.use("/vendors", require(apiPath + "/routes/vendors"));
 
 app.use("/requisitions", require(apiPath + "/routes/requisitions"));
+app.use("/requisition_items", require(apiPath + "/routes/requisition_items"));
 
 
 app.use(function (req, res, next) {

@@ -11,9 +11,8 @@ module.exports = {
         number: req.body.number,
         date: req.body.date,
         remarks: req.body.remarks,
-        location_id: req.body.location_id,
         department_id: req.body.department_id,
-        delivery_location_id: req.body.delivery_location_id,
+        location_id: req.body.location_id,
         project_id: req.body.project_id,
         expected_delivery: req.body.expected_delivery,
         organization_id: req.body.organization_id
@@ -56,7 +55,8 @@ module.exports = {
           }, {
             model: Users,
             attributes: [
-              'full_name'
+              'full_name',
+              'department_id'
             ],
             include: [{
               model: Locations,
@@ -88,15 +88,20 @@ module.exports = {
           }],
           order: [
             ['organization_id', 'ASC'],
-            ['number', 'ASC']
+            ['number', 'DESC']
           ],
           attributes: [
             'id',
             'number',
             'remarks',
+            'project_id',
+            'location_id',
+            'organization_id',
             'status_id',
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('requisitions.date'), constants.SHORT_DATE_FORMAT_PARAMS), 'date'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('requisitions.date'), constants.DEFAULT_DATE_FORMAT_PARAMS), '_date'],
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('requisitions.expected_delivery'), constants.SHORT_DATE_FORMAT_PARAMS), 'expected_delivery'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('requisitions.expected_delivery'), constants.DEFAULT_DATE_FORMAT_PARAMS), '_expected_delivery'],
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('requisitions.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('requisitions.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
           ]
@@ -113,7 +118,8 @@ module.exports = {
           include: [{
             model: Users,
             attributes: [
-              'full_name'
+              'full_name',
+              'department_id'
             ]
           }, {
             model: Status,
@@ -122,6 +128,9 @@ module.exports = {
             ]
           }, {
             model: Locations,
+            where: {
+              id: sequelize.col('requisitions.location_id')
+            },
             attributes: [
               'name'
             ]
@@ -138,14 +147,20 @@ module.exports = {
             ]
           }],
           order: [
-            ['number', 'ASC']
+            ['number', 'DESC']
           ],
           attributes: [
             'id',
             'number',
+            'remarks',
+            'project_id',
+            'location_id',
+            'organization_id',
             'status_id',
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('requisitions.date'), constants.SHORT_DATE_FORMAT_PARAMS), 'date'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('requisitions.date'), constants.DEFAULT_DATE_FORMAT_PARAMS), '_date'],
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('requisitions.expected_delivery'), constants.SHORT_DATE_FORMAT_PARAMS), 'expected_delivery'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('requisitions.expected_delivery'), constants.DEFAULT_DATE_FORMAT_PARAMS), '_expected_delivery'],
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('requisitions.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('requisitions.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
           ]
@@ -183,9 +198,8 @@ module.exports = {
           number: req.body.number,
           date: req.body.date,
           remarks: req.body.remarks,
-          location_id: req.body.location_id,
           department_id: req.body.department_id,
-          delivery_location_id: req.body.delivery_location_id,
+          location_id: req.body.location_id,
           project_id: req.body.project_id,
           expected_delivery: req.body.expected_delivery,
         })

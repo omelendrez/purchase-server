@@ -25,7 +25,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    delivery_location_id: {
+    location_id: {
       type: DataTypes.INTEGER,
       allowNull: false
     },

@@ -3,6 +3,7 @@
 const DATE_FORMAT_FUNCTION = 'date_format'; // 'to_char'
 const DATE_FORMAT_PARAMS = '%d-%b-%y %H:%i' // 'DD-Mon-YY HH24:MI';
 const SHORT_DATE_FORMAT_PARAMS = '%d-%b-%y' // 'DD-Mon-YY';
+const DEFAULT_DATE_FORMAT_PARAMS = '%Y-%m-%d';
 const UPPER = 'upper';
 const DEFAULT_PASSWORD = 'purchase+'
 const errorMessage = [
@@ -38,6 +39,7 @@ module.exports = {
   DATE_FORMAT_FUNCTION,
   DATE_FORMAT_PARAMS,
   SHORT_DATE_FORMAT_PARAMS,
+  DEFAULT_DATE_FORMAT_PARAMS,
   findMessage,
   formatName,
   UPPER,
