@@ -39,6 +39,7 @@ module.exports = {
           'description',
           'unit_id',
           'quantity',
+          'requisition_id',
           [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('requisition_items.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
           [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('requisition_items.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
         ]
@@ -53,7 +54,7 @@ module.exports = {
           id: req.params.id
         }
       })
-      .then(requisition_items => departments.destroy()
+      .then(requisition_items => requisition_items.destroy()
         .then(() => {
           res.json({ status: true });
         }))
