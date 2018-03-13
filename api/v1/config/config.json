@@ -2,7 +2,7 @@
   "development": {
     "username": "escng_purchase",
     "password": "M1a4$1t4E8r0",
-    "database": "escng_purchase",
+    "database": "heroku_23dc8f4ee33fd5a",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "define": {
