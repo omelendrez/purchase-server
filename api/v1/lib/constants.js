@@ -21,7 +21,7 @@ const catchError = ((error, fld, res) => {
   }
 })
 const activeValue = 1
-const inActiveValue = 11
+const inActiveValue = 2
 
 const findMessage = ((key) => {
   const result = errorMessage.find(item => {
