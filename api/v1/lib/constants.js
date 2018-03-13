@@ -1,9 +1,9 @@
 'use strict';
 
-const DATE_FORMAT_FUNCTION = 'date_format'; // 'to_char'
-const DATE_FORMAT_PARAMS = '%d-%b-%y %H:%i' // 'DD-Mon-YY HH24:MI';
-const SHORT_DATE_FORMAT_PARAMS = '%d-%b-%y' // 'DD-Mon-YY';
-const DEFAULT_DATE_FORMAT_PARAMS = '%Y-%m-%d';
+const DATE_FORMAT_FUNCTION = 'to_char'; // 'date_format'; // 'to_char'
+const DATE_FORMAT_PARAMS = 'DD-Mon-YY HH24:MI'; // '%d-%b-%y %H:%i' // 'DD-Mon-YY HH24:MI';
+const SHORT_DATE_FORMAT_PARAMS = 'DD-Mon-YY' // '%d-%b-%y' // 'DD-Mon-YY';
+const DEFAULT_DATE_FORMAT_PARAMS = 'YYYY-MM-DD' ;// '%Y-%m-%d';
 const UPPER = 'upper';
 const DEFAULT_PASSWORD = 'purchase+'
 const errorMessage = [
