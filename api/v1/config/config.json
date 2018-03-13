@@ -28,11 +28,11 @@
     "timezone": "-03:00"
   },
   "production": {
-    "username": "b7a4ee0b5f2681",
-    "password": "cee57d8c",
-    "database": "heroku_23dc8f4ee33fd5a",
-    "host": "us-cdbr-iron-east-05.cleardb.net",
-    "dialect": "mysql",
+    "username": "vtecicxhjuxpya",
+    "password": "ef15f3d5ee7bb37a5c65107a65ca929710de649608b801b012aa0c59da816336",
+    "database": "d3s235slg12nah",
+    "host": "ec2-54-221-212-15.compute-1.amazonaws.com",
+    "dialect": "postgres",
     "define": {
       "charset": "utf8",
       "collate": "utf8_general_ci",
