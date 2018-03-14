@@ -120,7 +120,13 @@ module.exports = {
             attributes: [
               'full_name',
               'department_id'
-            ]
+            ],
+            include: [{
+              model: Locations,
+              attributes: [
+                'name'
+              ]
+            }]
           }, {
             model: Status,
             attributes: [
@@ -128,9 +134,6 @@ module.exports = {
             ]
           }, {
             model: Locations,
-            where: {
-              id: sequelize.col('requisitions.location_id')
-            },
             attributes: [
               'name'
             ]
