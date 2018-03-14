@@ -121,7 +121,8 @@ module.exports = {
         {
           name: name,
           address: req.body.address,
-          phone: req.body.phone
+          phone: req.body.phone,
+          organization_id: req.body.organization_id
         })
         .then(result => {
           res.json(result);

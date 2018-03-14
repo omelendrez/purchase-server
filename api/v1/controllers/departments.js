@@ -128,7 +128,8 @@ module.exports = {
         }
       })
       .then(departments => departments.update({
-        name: name
+        name: name,
+        organization_id: req.body.organization_id
       })
         .then(result => {
           res.json(result);
