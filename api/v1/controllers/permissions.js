@@ -10,7 +10,7 @@ module.exports = {
     return Permissions
       .findOne({
         where: {
-          code: req.body.code
+          code: req.body.code.toUpperCase()
         }
       })
       .then(permissions => {
@@ -18,7 +18,7 @@ module.exports = {
           res.json({ error: true, message: constants.findMessage("inUse").replace('{name}', name) })
         } else {
           Permissions.create({
-            code: req.body.code,
+            code: req.body.code.toUpperCase(),
             name: name,
             description: req.body.description
           })
@@ -84,7 +84,7 @@ module.exports = {
         }
       })
       .then(permissions => permissions.update({
-        code: req.body.code,
+        code: req.body.code.toUpperCase(),
         name: name,
         description: req.body.description
       })
