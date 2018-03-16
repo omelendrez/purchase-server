@@ -21,7 +21,7 @@ module.exports = {
             code: req.body.code.toUpperCase(),
             name: name,
             description: req.body.description,
-            priority: req.body.priority
+            order: req.body.order
           })
             .then(permissions => res.status(201).send(permissions))
             .catch(error => res.status(400).send(error));
@@ -43,14 +43,14 @@ module.exports = {
           ]
         }],
         order: [
-          ['id', 'ASC']
+          ['order', 'ASC']
         ],
         attributes: [
           'id',
           'code',
           'name',
           'description',
-          'priority',
+          'order',
           'status_id',
           [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('permissions.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
           [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('permissions.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
@@ -89,7 +89,7 @@ module.exports = {
         code: req.body.code.toUpperCase(),
         name: name,
         description: req.body.description,
-        priority: req.body.priority
+        order: req.body.order
       })
         .then(result => {
           res.json(result);

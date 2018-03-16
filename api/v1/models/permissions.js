@@ -13,7 +13,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    priority: {
+    order: {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
