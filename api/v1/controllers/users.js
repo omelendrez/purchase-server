@@ -161,6 +161,11 @@ module.exports = {
   },
 
   login(req, res) {
+    const UsersPermissions = require("../models").users_permissions;
+    Users.hasMany(UsersPermissions);
+    const Permissions = require("../models").permissions;
+    UsersPermissions.belongsTo(Permissions);
+
     return Users
       .findOne({
         where: {
@@ -177,7 +182,20 @@ module.exports = {
           'location_id',
           'profile_id',
           'password'
-        ]
+        ],
+        include: [{
+          model: UsersPermissions,
+          required: false,
+          attributes: [
+            'permission_id'
+          ],
+          include: [{
+            model: Permissions,
+            attributes: [
+              'code'
+            ]
+          }]
+        }]
       })
       .then((users) => {
         bcrypt.compare(req.body.password, users.password)
