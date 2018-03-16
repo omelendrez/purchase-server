@@ -24,7 +24,9 @@ module.exports = {
             order: req.body.order
           })
             .then(permissions => res.status(201).send(permissions))
-            .catch(error => res.status(400).send(error));
+            .catch(error => {
+              constants.catchError(error, 'Order', res)
+            });
         }
       })
   },
@@ -94,7 +96,10 @@ module.exports = {
         .then(result => {
           res.json(result);
         }))
-      .catch(error => res.status(400).send(error));
+      .catch(error => {
+        constants.catchError(error, 'Order', res)
+      });
+
   }
 
 };

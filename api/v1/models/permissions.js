@@ -21,7 +21,15 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       defaultValue: 1
     }
-  });
+  },
+    {
+      indexes: [
+        {
+          unique: true,
+          fields: ["code"]
+        }
+      ]
+    });
 
   return Permissions;
 };
