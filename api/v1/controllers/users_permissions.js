@@ -9,10 +9,12 @@ module.exports = {
       user_id: req.body.user_id,
       permission_id: req.body.permission_id
     })
-      .then(users_permissions =>
-        res.status(201).send(users_permissions)
-      )
-      .catch(error => res.status(400).send(error));
+      .then(users_permissions => res.status(201).send(users_permissions))
+      .catch(error => {
+        if (error.name === "SequelizeUniqueConstraintError") {
+          res.status(201).send({ status: "Already exists" });
+        }
+      });
   },
 
   findByUserId(req, res) {
