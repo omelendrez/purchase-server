@@ -20,7 +20,8 @@ module.exports = {
           Permissions.create({
             code: req.body.code.toUpperCase(),
             name: name,
-            description: req.body.description
+            description: req.body.description,
+            priority: req.body.priority
           })
             .then(permissions => res.status(201).send(permissions))
             .catch(error => res.status(400).send(error));
@@ -42,13 +43,14 @@ module.exports = {
           ]
         }],
         order: [
-          ['name', 'ASC']
+          ['id', 'ASC']
         ],
         attributes: [
           'id',
           'code',
           'name',
           'description',
+          'priority',
           'status_id',
           [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('permissions.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
           [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('permissions.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
@@ -86,7 +88,8 @@ module.exports = {
       .then(permissions => permissions.update({
         code: req.body.code.toUpperCase(),
         name: name,
-        description: req.body.description
+        description: req.body.description,
+        priority: req.body.priority
       })
         .then(result => {
           res.json(result);
