@@ -232,7 +232,8 @@ module.exports = {
           email: req.body.email,
           location_id: req.body.location_id,
           department_id: req.body.department_id,
-          profile_id: req.body.profile_id
+          profile_id: req.body.profile_id,
+          organization_id: req.body.organization_id
         })
         .then(result => {
           res.json(result);

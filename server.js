@@ -52,6 +52,8 @@ app.use("/locations", require(apiPath + "/routes/locations"));
 app.use("/projects", require(apiPath + "/routes/projects"));
 app.use("/vendors", require(apiPath + "/routes/vendors"));
 
+app.use("/users_permissions", require(apiPath + "/routes/users_permissions"));
+
 app.use("/requisitions", require(apiPath + "/routes/requisitions"));
 app.use("/requisition_items", require(apiPath + "/routes/requisition_items"));
 

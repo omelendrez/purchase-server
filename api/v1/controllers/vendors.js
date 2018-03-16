@@ -149,6 +149,7 @@ module.exports = {
         phone: req.body.phone,
         email: req.body.email,
         contact: req.body.contact,
+        organization_id: req.body.organization_id
       })
         .then(result => {
           res.json(result);
