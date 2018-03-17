@@ -13,11 +13,23 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    order: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
     status_id: {
       type: DataTypes.INTEGER,
       defaultValue: 1
     }
-  });
+  },
+    {
+      indexes: [
+        {
+          unique: true,
+          fields: ["code"]
+        }
+      ]
+    });
 
   return Permissions;
 };

@@ -6,11 +6,12 @@ const constants = require("../lib/constants")
 module.exports = {
 
   create(req, res) {
+    const code = req.body.code.toUpperCase()
     const name = constants.formatName(req.body.name)
     return Permissions
       .findOne({
         where: {
-          code: req.body.code.toUpperCase()
+          code: name
         }
       })
       .then(permissions => {
@@ -18,12 +19,15 @@ module.exports = {
           res.json({ error: true, message: constants.findMessage("inUse").replace('{name}', name) })
         } else {
           Permissions.create({
-            code: req.body.code.toUpperCase(),
+            code: code,
             name: name,
-            description: req.body.description
+            description: req.body.description,
+            order: req.body.order
           })
             .then(permissions => res.status(201).send(permissions))
-            .catch(error => res.status(400).send(error));
+            .catch(error => {
+              constants.catchError(error, req.body.code, res)
+            });
         }
       })
   },
@@ -42,13 +46,14 @@ module.exports = {
           ]
         }],
         order: [
-          ['name', 'ASC']
+          ['order', 'ASC']
         ],
         attributes: [
           'id',
           'code',
           'name',
           'description',
+          'order',
           'status_id',
           [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('permissions.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
           [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('permissions.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
@@ -76,6 +81,7 @@ module.exports = {
   },
 
   update(req, res) {
+    const code = req.body.code.toUpperCase()
     const name = constants.formatName(req.body.name)
     return Permissions
       .findOne({
@@ -84,14 +90,18 @@ module.exports = {
         }
       })
       .then(permissions => permissions.update({
-        code: req.body.code.toUpperCase(),
+        code: code,
         name: name,
-        description: req.body.description
+        description: req.body.description,
+        order: req.body.order
       })
         .then(result => {
           res.json(result);
         }))
-      .catch(error => res.status(400).send(error));
+      .catch(error => {
+        constants.catchError(error, code, res)
+      });
+
   }
 
 };
