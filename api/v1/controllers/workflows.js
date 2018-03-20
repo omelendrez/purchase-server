@@ -20,30 +20,66 @@ module.exports = {
   findAll(req, res) {
     const Status = require("../models").status;
     Workflows.belongsTo(Status);
+    if (req.params.id === "1") {
+      const Organizations = require("../models").organizations;
+      Workflows.belongsTo(Organizations);
 
-    Workflows
-      .findAndCountAll({
-        raw: true,
-        include: [{
-          model: Status,
+      Workflows
+        .findAndCountAll({
+          raw: true,
+          include: [{
+            model: Status,
+            attributes: [
+              'name'
+            ]
+          }, {
+            model: Organizations,
+            attributes: [
+              'name'
+            ]
+          }],
+          order: [
+            ['name', 'ASC']
+          ],
           attributes: [
-            'name'
+            'id',
+            'name',
+            'description',
+            'status_id',
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('workflows.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('workflows.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
           ]
-        }],
-        order: [
-          ['name', 'ASC']
-        ],
-        attributes: [
-          'id',
-          'name',
-          'description',
-          'status_id',
-          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('workflows.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
-          [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('workflows.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
-        ]
-      })
-      .then(workflows => res.json(workflows))
-      .catch(error => res.status(400).send(error));
+        })
+        .then(workflows => res.json(workflows))
+        .catch(error => res.status(400).send(error));
+    } else {
+      Workflows
+        .findAndCountAll({
+          raw: true,
+          where: {
+            organization_id: req.params.id
+          },
+          include: [{
+            model: Status,
+            attributes: [
+              'name'
+            ]
+          }],
+          order: [
+            ['name', 'ASC']
+          ],
+          attributes: [
+            'id',
+            'name',
+            'description',
+            'status_id',
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('workflows.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
+            [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('workflows.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
+          ]
+        })
+        .then(workflows => res.json(workflows))
+        .catch(error => res.status(400).send(error));
+    }
   },
   delete(req, res) {
     return Workflows
