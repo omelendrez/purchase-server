@@ -8,6 +8,7 @@ module.exports = {
     return PurchaseOrders.create({
       user_id: req.body.user_id,
       number: req.body.number,
+      vendor_id: req.body.vendor_id,
       date: req.body.date,
       location_id: req.body.location_id,
       expected_delivery: req.body.expected_delivery,
@@ -66,6 +67,7 @@ module.exports = {
           "number",
           "instructions",
           "payment_terms",
+          "vendor_id",
           "location_id",
           "organization_id",
           "status_id",
@@ -242,6 +244,7 @@ module.exports = {
           .update({
             user_id: req.body.user_id,
             number: req.body.number,
+            vendor_id: req.body.vendor_id,
             date: req.body.date,
             location_id: req.body.location_id,
             expected_delivery: req.body.expected_delivery,

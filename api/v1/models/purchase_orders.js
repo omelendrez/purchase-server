@@ -9,6 +9,10 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    vendor_id: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+    },
     date: {
       type: DataTypes.DATEONLY,
       allowNull: false
