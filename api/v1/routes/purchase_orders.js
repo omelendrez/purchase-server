@@ -7,7 +7,7 @@ router.use(function(req, res, next) {
   console.log("%s %s %s", req.method, req.url, req.path);
   next();
 });
-router.get("/", purchase_orders.findAll);
+router.get("/:id", purchase_orders.findAll);
 router.post("/", purchase_orders.create);
 router.delete("/:id", purchase_orders.delete);
 router.put("/:id", purchase_orders.update);
