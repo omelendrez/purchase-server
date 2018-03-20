@@ -1,6 +1,6 @@
 "use strict";
 module.exports = function (sequelize, DataTypes) {
-  const Requisitions = sequelize.define("requisitions", {
+  const PurchaseOrders = sequelize.define("purchase_orders", {
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -9,28 +9,28 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    vendor_id: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+    },
     date: {
       type: DataTypes.DATEONLY,
       allowNull: false
     },
-    remarks: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     location_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    department_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    project_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      defaultValue: 1
     },
     expected_delivery: {
       type: DataTypes.DATEONLY,
+      allowNull: false
+    },
+    instructions: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    payment_terms: {
+      type: DataTypes.STRING,
       allowNull: false
     },
     status_id: {
@@ -43,5 +43,5 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
 
-  return Requisitions;
+  return PurchaseOrders;
 };
