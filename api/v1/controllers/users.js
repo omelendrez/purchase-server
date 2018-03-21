@@ -43,16 +43,34 @@ module.exports = {
     const Profiles = require("../models").profiles;
     Users.belongsTo(Profiles);
 
+    const UsersPermissions = require("../models").users_permissions;
+    Users.hasMany(UsersPermissions);
+
+    const Permissions = require("../models").permissions;
+    UsersPermissions.belongsTo(Permissions);
+
     if (req.params.id === "1") {
 
       Users
         .findAndCountAll({
-          raw: true,
           include: [{
             model: Status,
             attributes: [
               'name'
             ]
+          },
+          {
+            model: UsersPermissions,
+            required: false,
+            attributes: [
+              'permission_id'
+            ],
+            include: [{
+              model: Permissions,
+              attributes: [
+                'code'
+              ]
+            }]
           },
           {
             model: Organizations,
@@ -112,6 +130,18 @@ module.exports = {
             attributes: [
               'name'
             ]
+          }, {
+            model: UsersPermissions,
+            required: false,
+            attributes: [
+              'permission_id'
+            ],
+            include: [{
+              model: Permissions,
+              attributes: [
+                'code'
+              ]
+            }]
           },
           {
             model: Organizations,
