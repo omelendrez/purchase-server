@@ -7,8 +7,9 @@ module.exports = {
   create(req, res) {
     return Workflows
       .create({
-        name: req.body.name,
-        description: req.body.description
+        name: req.body.name.toUpperCase(),
+        description: req.body.description,
+        organization_id: req.body.organization_id
       })
       .then(workflows => res.status(201).json(workflows))
       .catch(error => {
@@ -46,6 +47,7 @@ module.exports = {
             'name',
             'description',
             'status_id',
+            'organization_id',
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('workflows.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('workflows.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
           ]
@@ -73,6 +75,7 @@ module.exports = {
             'name',
             'description',
             'status_id',
+            'organization_id',
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('workflows.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('workflows.updated_at'), constants.DATE_FORMAT_PARAMS), 'updated_at']
           ]
@@ -106,8 +109,9 @@ module.exports = {
       })
       .then(workflows => workflows.update(
         {
-          name: req.body.name,
-          description: req.body.description
+          name: req.body.name.toUpperCase(),
+          description: req.body.description,
+          organization_id: req.body.organization_id
         })
         .then(result => {
           res.json(result);
