@@ -1,0 +1,14 @@
+"use strict";
+const workflow_users = require("../controllers/workflow_users");
+const express = require("express");
+const router = express.Router();
+
+router.use(function(req, res, next) {
+  console.log("%s %s %s", req.method, req.url, req.path);
+  next();
+});
+router.get("/:id", workflow_users.findByWorkflowId);
+router.post("/", workflow_users.create);
+router.delete("/:id/type/:type", workflow_users.delete);
+
+module.exports = router;
