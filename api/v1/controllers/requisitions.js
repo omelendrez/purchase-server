@@ -56,7 +56,8 @@ module.exports = {
             model: Users,
             attributes: [
               'full_name',
-              'department_id'
+              'department_id',
+              'id'
             ],
             include: [{
               model: Locations,
