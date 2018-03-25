@@ -54,6 +54,7 @@ app.use("/vendors", require(apiPath + "/routes/vendors"));
 
 app.use("/users_permissions", require(apiPath + "/routes/users_permissions"));
 app.use("/workflows", require(apiPath + "/routes/workflows"));
+app.use("/workflow_users", require(apiPath + "/routes/workflow_users"));
 
 app.use("/requisitions", require(apiPath + "/routes/requisitions"));
 app.use("/requisition_items", require(apiPath + "/routes/requisition_items"));
