@@ -10,6 +10,7 @@ module.exports = {
         document_type: req.body.document_type,
         document_id: req.body.document_id,
         document_status: req.body.document_status,
+        remarks: req.body.remarks,
         user_id: req.body.user_id
       })
       .then(document_status => res.status(201).send(document_status))
