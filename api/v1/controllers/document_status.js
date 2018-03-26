@@ -1,5 +1,7 @@
 "use strict";
 const DocumentStatus = require("../models").document_status;
+const Requisitions = require("../models").requisitions;
+const PurchaseOrders = require("../models").purchase_orders;
 const sequelize = require("sequelize");
 const constants = require("../lib/constants")
 
@@ -13,7 +15,39 @@ module.exports = {
         remarks: req.body.remarks,
         user_id: req.body.user_id
       })
-      .then(document_status => res.status(201).send(document_status))
+      .then(document_status => {
+        if (req.body.document_type === 1) {
+          Requisitions
+            .findOne({
+              where: {
+                id: req.body.document_id
+              }
+            })
+            .then(requisitions => requisitions.update(
+              {
+                workflow_status: req.body.document_status
+              })
+              .then(result => {
+                res.status(201).send(document_status)
+              }))
+            .catch(error => res.status(400).send(error));
+        } else {
+          PurchaseOrders
+            .findOne({
+              where: {
+                id: req.body.document_id
+              }
+            })
+            .then(purchase_orders => purchase_orders.update(
+              {
+                workflow_status: req.body.document_status
+              })
+              .then(result => {
+                res.status(201).send(document_status)
+              }))
+            .catch(error => res.status(400).send(error));
+        }
+      })
       .catch(error => res.status(400).send(error));
   },
 
