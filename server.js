@@ -24,7 +24,7 @@ models.availability.sequelize.sync({
 });
 */
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -62,7 +62,9 @@ app.use("/requisition_items", require(apiPath + "/routes/requisition_items"));
 app.use("/purchase_orders", require(apiPath + "/routes/purchase_orders"));
 app.use("/purchase_order_items", require(apiPath + "/routes/purchase_order_items"));
 
-app.use(function(req, res, next) {
+app.use("/document_status", require(apiPath + "/routes/document_status"));
+
+app.use(function (req, res, next) {
   if (!req.route) res.send(404);
   next();
 });
@@ -70,6 +72,6 @@ const port = process.env.PORT || 3020;
 
 app.set("port", port);
 
-app.listen(app.get("port"), function() {
+app.listen(app.get("port"), function () {
   console.log("Node app is running on port", app.get("port"));
 });
