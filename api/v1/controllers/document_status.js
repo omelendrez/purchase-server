@@ -25,7 +25,8 @@ module.exports = {
             })
             .then(requisitions => requisitions.update(
               {
-                workflow_status: req.body.document_status
+                workflow_status: req.body.document_status,
+                status_id: req.body.document_status === 2 ? 2 : 1
               })
               .then(result => {
                 res.status(201).send(document_status)
@@ -40,7 +41,8 @@ module.exports = {
             })
             .then(purchase_orders => purchase_orders.update(
               {
-                workflow_status: req.body.document_status
+                workflow_status: req.body.document_status,
+                status_id: req.body.document_status === 2 ? 2 : 1
               })
               .then(result => {
                 res.status(201).send(document_status)
