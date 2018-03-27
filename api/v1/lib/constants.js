@@ -26,8 +26,8 @@ const catchError = (error, fld, res) => {
 const activeValue = 1;
 const inActiveValue = 2;
 
-const getNextNumber = (type, model) => {
-  return `select concat('${type}',trim(to_char(cast(max(replace(number, '${type}', '')) as int)+1, '000000'))) as number from ${model} where left(number,3) = '${type}'`;
+const getNextNumber = (type, model, organization_id) => {
+  return `select concat('${type}',trim(to_char(cast(max(replace(number, '${type}', '')) as int)+1, '000000'))) as number from ${model} where left(number,3) = '${type}' and organization_id=${organization_id}`;
 };
 
 const findMessage = key => {

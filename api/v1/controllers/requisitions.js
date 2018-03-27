@@ -8,9 +8,16 @@ module.exports = {
     let nextNumber = "PR-000001";
     const db = require("./../lib/db");
     db.sequelize
-      .query(constants.getNextNumber("PR-", "requisitions"), {
-        type: sequelize.QueryTypes.SELECT
-      })
+      .query(
+        constants.getNextNumber(
+          "PR-",
+          "requisitions",
+          req.body.organization_id
+        ),
+        {
+          type: sequelize.QueryTypes.SELECT
+        }
+      )
       .then(result => {
         nextNumber =
           result[0].number.length === 9 ? result[0].number : nextNumber;
