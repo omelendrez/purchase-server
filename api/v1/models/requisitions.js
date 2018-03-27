@@ -44,6 +44,10 @@ module.exports = function (sequelize, DataTypes) {
     workflow_status: {
       type: DataTypes.INTEGER,
       defaultValue: 0
+    },
+    workflow_id: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     }
   });
 

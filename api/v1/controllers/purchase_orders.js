@@ -72,6 +72,7 @@ module.exports = {
           "organization_id",
           "status_id",
           "workflow_status",
+          "workflow_id",
           [
             sequelize.fn(
               constants.DATE_FORMAT_FUNCTION,
@@ -160,6 +161,7 @@ module.exports = {
           "organization_id",
           "status_id",
           "workflow_status",
+          "workflow_id",
           [
             sequelize.fn(
               constants.DATE_FORMAT_FUNCTION,

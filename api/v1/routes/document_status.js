@@ -8,6 +8,7 @@ router.use(function (req, res, next) {
   next();
 });
 router.get("/:type/:id", document_status.findByDocumentId);
+router.get("/document/:type/:id", document_status.findDocumentById);
 router.post("/", document_status.create);
 
 module.exports = router;
