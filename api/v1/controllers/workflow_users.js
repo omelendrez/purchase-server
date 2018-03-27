@@ -33,6 +33,22 @@ module.exports = {
       .catch(error => res.status(400).send(error))
   },
 
+  findByUserId(req, res) {
+    return WorkflowUsers
+      .findAndCountAll({
+        raw: true,
+        where: {
+          user_id: req.params.id
+        },
+        attributes: [
+          'workflow_id',
+          'user_type'
+        ]
+      })
+      .then(workflow_users => res.json(workflow_users))
+      .catch(error => res.status(400).send(error))
+  },
+
   delete(req, res) {
     return WorkflowUsers
       .destroy({

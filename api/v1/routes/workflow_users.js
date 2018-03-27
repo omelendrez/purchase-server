@@ -8,6 +8,7 @@ router.use(function(req, res, next) {
   next();
 });
 router.get("/:id", workflow_users.findByWorkflowId);
+router.get("/:id/user", workflow_users.findByUserId);
 router.post("/", workflow_users.create);
 router.delete("/:id/type/:type", workflow_users.delete);
 

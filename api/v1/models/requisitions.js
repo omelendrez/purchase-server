@@ -40,7 +40,25 @@ module.exports = function (sequelize, DataTypes) {
     organization_id: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    workflow_status: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    workflow_id: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     }
+  });
+
+  Requisitions.beforeCreate((requisition) => {
+    sequelize.query("select concat('PR-',to_char(cast(max(replace(number, 'PR-', '')) as int)+1, '000000')) as number from requisitions", { type: sequelize.QueryTypes.SELECT })
+      .then(results => {
+        requisition.number = results.number ? results.number : 'PR-000001'
+      })
+      .catch((err) => {
+        requisition.number = 'PR-000001'
+      });
   });
 
   return Requisitions;

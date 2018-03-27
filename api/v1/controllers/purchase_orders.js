@@ -5,19 +5,30 @@ const constants = require("../lib/constants");
 
 module.exports = {
   create(req, res) {
-    return PurchaseOrders.create({
-      user_id: req.body.user_id,
-      number: req.body.number,
-      vendor_id: req.body.vendor_id,
-      date: req.body.date,
-      location_id: req.body.location_id,
-      expected_delivery: req.body.expected_delivery,
-      instructions: req.body.instructions,
-      payment_terms: req.body.payment_terms,
-      organization_id: req.body.organization_id
-    })
-      .then(purchase_orders => res.status(201).json(purchase_orders))
-      .catch(error => res.status(400).send(error));
+    let nextNumber = "PO-000001";
+    const db = require("./../lib/db");
+    db.sequelize
+      .query(constants.getNextNumber("PO-", "purchase_orders"), {
+        type: sequelize.QueryTypes.SELECT
+      })
+      .then(result => {
+        nextNumber =
+          result[0].number.length === 9 ? result[0].number : nextNumber;
+
+        return PurchaseOrders.create({
+          user_id: req.body.user_id,
+          number: nextNumber,
+          vendor_id: req.body.vendor_id,
+          date: req.body.date,
+          location_id: req.body.location_id,
+          expected_delivery: req.body.expected_delivery,
+          instructions: req.body.instructions,
+          payment_terms: req.body.payment_terms,
+          organization_id: req.body.organization_id
+        })
+          .then(purchase_orders => res.status(201).json(purchase_orders))
+          .catch(error => res.status(400).send(error));
+      });
   },
 
   findAll(req, res) {
@@ -44,7 +55,7 @@ module.exports = {
           },
           {
             model: Users,
-            attributes: ["full_name", "department_id"],
+            attributes: ["full_name", "department_id", "id"],
             include: [
               {
                 model: Locations,
@@ -71,6 +82,8 @@ module.exports = {
           "location_id",
           "organization_id",
           "status_id",
+          "workflow_status",
+          "workflow_id",
           [
             sequelize.fn(
               constants.DATE_FORMAT_FUNCTION,
@@ -158,6 +171,8 @@ module.exports = {
           "location_id",
           "organization_id",
           "status_id",
+          "workflow_status",
+          "workflow_id",
           [
             sequelize.fn(
               constants.DATE_FORMAT_FUNCTION,
