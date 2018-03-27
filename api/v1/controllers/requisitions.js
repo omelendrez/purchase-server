@@ -4,6 +4,8 @@ const sequelize = require("sequelize");
 const constants = require("../lib/constants");
 
 module.exports = {
+
+  // const sequelize = new Sequelize('database', 'username', 'password')
   create(req, res) {
     return Requisitions
       .create({
