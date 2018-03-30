@@ -255,6 +255,35 @@ module.exports = {
         .catch(error => res.status(400).send(error));
     }
   },
+
+  findItems(req, res) {
+    const RequisitionItems = require("../models").requisition_items;
+    Requisitions.hasMany(RequisitionItems)
+
+    return Requisitions.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: {
+        model: RequisitionItems,
+        attributes: [
+          'id',
+          'description',
+          'unit_id',
+          'quantity'
+        ],
+        required: true
+      },
+      attributes: [
+        'expected_delivery',
+        'location_id'
+      ]
+    })
+      .then(requisition => res.json(requisition))
+      .catch(error => res.status(400).send(error));
+
+  },
+
   delete(req, res) {
     return Requisitions.findOne({
       where: {
