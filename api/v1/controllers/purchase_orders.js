@@ -13,8 +13,7 @@ module.exports = {
           "PO-",
           "purchase_orders",
           req.body.organization_id
-        ),
-        {
+        ), {
           type: sequelize.QueryTypes.SELECT
         }
       )
@@ -49,16 +48,37 @@ module.exports = {
     PurchaseOrders.belongsTo(Locations);
     Users.belongsTo(Locations);
 
+    const PurchaseOrderItems = require("../models").purchase_order_items
+    PurchaseOrders.hasMany(PurchaseOrderItems);
+
+    const Units = require("../models").units
+    PurchaseOrderItems.belongsTo(Units);
+
     if (req.params.id === "1") {
       const Organizations = require("../models").organizations;
       PurchaseOrders.belongsTo(Organizations);
 
       PurchaseOrders.findAndCountAll({
-        raw: true,
         include: [
           {
             model: Organizations,
             attributes: ["name"]
+          },
+          {
+            model: PurchaseOrderItems,
+            attributes: [
+              'id',
+              'description',
+              'quantity',
+              'unit_price',
+              'total_amount'
+            ],
+            include: {
+              model: Units,
+              attributes: [
+                'name'
+              ]
+            }
           },
           {
             model: Users,
@@ -145,11 +165,24 @@ module.exports = {
         .catch(error => res.status(400).send(error));
     } else {
       PurchaseOrders.findAndCountAll({
-        raw: true,
         where: {
           organization_id: req.params.id
         },
         include: [
+          {
+            model: PurchaseOrderItems,
+            attributes: [
+              'id',
+              'description',
+              'quantity'
+            ],
+            include: {
+              model: Units,
+              attributes: [
+                'name'
+              ]
+            }
+          },
           {
             model: Users,
             attributes: ["full_name", "department_id"],

@@ -29,7 +29,7 @@ module.exports = {
                 status_id: req.body.document_status === 2 ? 2 : 1,
                 workflow_id: req.body.workflow_id ? req.body.workflow_id : requisitions.workflow_id
               })
-              .then(result => {
+              .then(() => {
                 res.status(201).send(document_status)
               }))
             .catch(error => res.status(400).send(error));
@@ -46,7 +46,7 @@ module.exports = {
                 status_id: req.body.document_status === 2 ? 2 : 1,
                 workflow_id: req.body.workflow_id ? req.body.workflow_id : purchase_orders.workflow_id
               })
-              .then(result => {
+              .then(() => {
                 res.status(201).send(document_status)
               }))
             .catch(error => res.status(400).send(error));
