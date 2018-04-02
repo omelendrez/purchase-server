@@ -87,7 +87,7 @@ module.exports = {
           },
           {
             model: Users,
-            attributes: ["full_name", "department_id", "id"],
+            attributes: ["full_name", "department_id"],
             include: [
               {
                 model: Locations,
@@ -123,6 +123,7 @@ module.exports = {
           "status_id",
           "workflow_status",
           "workflow_id",
+          'user_id',
           [
             sequelize.fn(
               constants.DATE_FORMAT_FUNCTION,
@@ -233,6 +234,7 @@ module.exports = {
           "status_id",
           "workflow_status",
           "workflow_id",
+          'user_id',
           [
             sequelize.fn(
               constants.DATE_FORMAT_FUNCTION,

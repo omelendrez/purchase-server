@@ -174,7 +174,9 @@ module.exports = {
             attributes: [
               'id',
               'description',
-              'quantity'
+              'quantity',
+              'unit_price',
+              'total_amount'
             ],
             include: {
               model: Units,
@@ -208,6 +210,7 @@ module.exports = {
           "number",
           "instructions",
           "payment_terms",
+          "vendor_id",
           "location_id",
           "organization_id",
           "status_id",
