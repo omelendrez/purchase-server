@@ -13,8 +13,7 @@ module.exports = {
           "PR-",
           "requisitions",
           req.body.organization_id
-        ),
-        {
+        ), {
           type: sequelize.QueryTypes.SELECT
         }
       )
@@ -55,20 +54,40 @@ module.exports = {
     const Projects = require("../models").projects;
     Requisitions.belongsTo(Projects);
 
+    const RequisitionItems = require("../models").requisition_items
+    Requisitions.hasMany(RequisitionItems);
+
+    const Units = require("../models").units
+    RequisitionItems.belongsTo(Units);
+
     if (req.params.id === "1") {
       const Organizations = require("../models").organizations;
       Requisitions.belongsTo(Organizations);
 
       Requisitions.findAndCountAll({
-        raw: true,
+        //raw: true,
         include: [
           {
             model: Organizations,
             attributes: ["name"]
           },
           {
+            model: RequisitionItems,
+            attributes: [
+              'id',
+              'description',
+              'quantity'
+            ],
+            include: {
+              model: Units,
+              attributes: [
+                'name'
+              ]
+            }
+          },
+          {
             model: Users,
-            attributes: ["full_name", "department_id", "id"],
+            attributes: ["full_name", "department_id"],
             include: [
               {
                 model: Locations,
@@ -104,6 +123,7 @@ module.exports = {
           "status_id",
           "workflow_status",
           "workflow_id",
+          'user_id',
           [
             sequelize.fn(
               constants.DATE_FORMAT_FUNCTION,
@@ -158,11 +178,24 @@ module.exports = {
         .catch(error => res.status(400).send(error));
     } else {
       Requisitions.findAndCountAll({
-        raw: true,
         where: {
           organization_id: req.params.id
         },
         include: [
+          {
+            model: RequisitionItems,
+            attributes: [
+              'id',
+              'description',
+              'quantity'
+            ],
+            include: {
+              model: Units,
+              attributes: [
+                'name'
+              ]
+            }
+          },
           {
             model: Users,
             attributes: ["full_name", "department_id"],
@@ -201,6 +234,7 @@ module.exports = {
           "status_id",
           "workflow_status",
           "workflow_id",
+          'user_id',
           [
             sequelize.fn(
               constants.DATE_FORMAT_FUNCTION,
