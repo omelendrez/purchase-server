@@ -37,6 +37,10 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       defaultValue: 1
     },
+    total_amount: {
+      type: DataTypes.DOUBLE,
+      defaultValue: 0
+    },
     organization_id: {
       type: DataTypes.INTEGER,
       allowNull: false
