@@ -44,7 +44,7 @@ module.exports = {
           },
           {
             model: Organizations,
-            attributes: ["name"]
+            attributes: ["code"]
           }
         ],
         order: [["organization_id", "ASC"], ["name", "ASC"]],
@@ -86,7 +86,7 @@ module.exports = {
           },
           {
             model: Organizations,
-            attributes: ["name"]
+            attributes: ["code"]
           }
         ],
         order: [["name", "ASC"]],

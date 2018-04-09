@@ -9,6 +9,7 @@ module.exports = {
     const name = constants.formatName(req.body.name)
     return Organizations
       .create({
+        code: req.body.code,
         name: name
       })
       .then(organizations => res.status(201).send(organizations))
@@ -36,6 +37,7 @@ module.exports = {
           ],
           attributes: [
             'id',
+            'code',
             'name',
             'status_id',
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('organizations.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
@@ -64,6 +66,7 @@ module.exports = {
           ],
           attributes: [
             'id',
+            'code',
             'name',
             'status_id',
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('organizations.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
@@ -102,6 +105,7 @@ module.exports = {
         }
       })
       .then(organizations => organizations.update({
+        code: req.body.code,
         name: name
       })
         .then(result => {

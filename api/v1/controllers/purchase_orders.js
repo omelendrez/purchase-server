@@ -62,7 +62,7 @@ module.exports = {
         include: [
           {
             model: Organizations,
-            attributes: ["name"]
+            attributes: ["code"]
           },
           {
             model: PurchaseOrderItems,
@@ -111,6 +111,7 @@ module.exports = {
           "status_id",
           "workflow_status",
           "workflow_id",
+          "total_amount",
           [
             sequelize.fn(
               constants.DATE_FORMAT_FUNCTION,
@@ -216,6 +217,7 @@ module.exports = {
           "status_id",
           "workflow_status",
           "workflow_id",
+          "total_amount",
           [
             sequelize.fn(
               constants.DATE_FORMAT_FUNCTION,

@@ -64,6 +64,8 @@ app.use("/purchase_order_items", require(apiPath + "/routes/purchase_order_items
 
 app.use("/document_status", require(apiPath + "/routes/document_status"));
 
+app.use("/approvals", require(apiPath + "/routes/approvals"));
+
 app.use(function (req, res, next) {
   if (!req.route) res.send(404);
   next();
