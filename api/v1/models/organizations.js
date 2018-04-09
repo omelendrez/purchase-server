@@ -1,6 +1,10 @@
 "use strict";
 module.exports = function (sequelize, DataTypes) {
   const Organizations = sequelize.define("organizations", {
+    code: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false
@@ -12,6 +16,10 @@ module.exports = function (sequelize, DataTypes) {
   },
     {
       indexes: [
+        {
+          unique: true,
+          fields: ["code"]
+        },
         {
           unique: true,
           fields: ["name"]

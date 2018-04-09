@@ -52,7 +52,7 @@ module.exports = {
           }, {
             model: Organizations,
             attributes: [
-              'name'
+              'code'
             ]
           }],
           order: [
@@ -91,7 +91,7 @@ module.exports = {
           }, {
             model: Organizations,
             attributes: [
-              'name'
+              'code'
             ]
           }],
           order: [

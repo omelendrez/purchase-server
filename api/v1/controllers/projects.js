@@ -46,7 +46,7 @@ module.exports = {
           },
           {
             model: Organizations,
-            attributes: ["name"]
+            attributes: ["code"]
           }
         ],
         order: [

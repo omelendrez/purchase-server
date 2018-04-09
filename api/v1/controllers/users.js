@@ -75,7 +75,7 @@ module.exports = {
           {
             model: Organizations,
             attributes: [
-              'name'
+              'code'
             ]
           },
           {
@@ -146,7 +146,7 @@ module.exports = {
           {
             model: Organizations,
             attributes: [
-              'name'
+              'code'
             ]
           },
           {

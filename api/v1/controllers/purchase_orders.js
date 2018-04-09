@@ -62,7 +62,7 @@ module.exports = {
         include: [
           {
             model: Organizations,
-            attributes: ["name"]
+            attributes: ["code"]
           },
           {
             model: PurchaseOrderItems,
