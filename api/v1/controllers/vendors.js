@@ -25,6 +25,7 @@ module.exports = {
             phone: req.body.phone,
             email: req.body.email,
             contact: req.body.contact,
+            remarks: req.body.remarks,
             organization_id: req.body.organization_id
           })
             .then(vendors => res.status(201).send(vendors))
@@ -67,6 +68,7 @@ module.exports = {
             'phone',
             'email',
             'contact',
+            'remarks',
             'status_id',
             'organization_id',
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('vendors.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
@@ -105,6 +107,7 @@ module.exports = {
             'phone',
             'email',
             'contact',
+            'remarks',
             'status_id',
             'organization_id',
             [sequelize.fn(constants.DATE_FORMAT_FUNCTION, sequelize.col('vendors.created_at'), constants.DATE_FORMAT_PARAMS), 'created_at'],
@@ -149,6 +152,7 @@ module.exports = {
         phone: req.body.phone,
         email: req.body.email,
         contact: req.body.contact,
+        remarks: req.body.remarks,
         organization_id: req.body.organization_id
       })
         .then(result => {
