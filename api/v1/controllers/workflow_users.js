@@ -1,10 +1,9 @@
 "use strict";
 const WorkflowUsers = require("../models").workflow_users;
-const sequelize = require("sequelize");
 const constants = require("../lib/constants");
 
 module.exports = {
-  create(req, res) {
+  create (req, res) {
     return WorkflowUsers
       .create({
         workflow_id: req.body.workflow_id,
@@ -17,7 +16,9 @@ module.exports = {
       });
   },
 
-  findByWorkflowId(req, res) {
+  findByWorkflowId (req, res) {
+    const Users = require("../models").users;
+    WorkflowUsers.belongsTo(Users);
     return WorkflowUsers
       .findAndCountAll({
         raw: true,
@@ -26,14 +27,21 @@ module.exports = {
         },
         attributes: [
           'user_id',
-          'user_type'
+          'user_type',
+          'id'
+        ],
+        include: [
+          {
+            model: Users,
+            attributes: ["full_name", "email"]
+          }
         ]
       })
       .then(workflow_users => res.json(workflow_users))
       .catch(error => res.status(400).send(error))
   },
 
-  findByUserId(req, res) {
+  findByUserId (req, res) {
     return WorkflowUsers
       .findAndCountAll({
         raw: true,
@@ -49,12 +57,36 @@ module.exports = {
       .catch(error => res.status(400).send(error))
   },
 
-  delete(req, res) {
+  findByWorkflowActors (req, res) {
+    const Users = require("../models").users;
+    WorkflowUsers.belongsTo(Users);
+
     return WorkflowUsers
-      .destroy({
+      .findAndCountAll({
         where: {
           workflow_id: req.params.id,
           user_type: req.params.type
+        },
+        attributes: [
+          'user_id',
+          'user_type',
+        ],
+        include: [
+          {
+            model: Users,
+            attributes: ["full_name", "email"]
+          }
+        ]
+      })
+      .then(workflow_users => res.json(workflow_users))
+      .catch(error => res.status(400).send(error))
+  },
+
+  delete (req, res) {
+    return WorkflowUsers
+      .destroy({
+        where: {
+          id: req.params.id
         }
       })
       .then(() => {

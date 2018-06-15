@@ -1,10 +1,10 @@
 {
   "development": {
-    "username": "postgres",
+    "username": "escng_purchase",
     "password": "M1a4$1t4E8r0",
     "database": "escng_purchase",
     "host": "127.0.0.1",
-    "dialect": "postgres",
+    "dialect": "mysql",
     "define": {
       "charset": "utf8",
       "collate": "utf8_general_ci",
@@ -28,11 +28,11 @@
     "timezone": "-03:00"
   },
   "production": {
-    "username": "vtecicxhjuxpya",
-    "password": "ef15f3d5ee7bb37a5c65107a65ca929710de649608b801b012aa0c59da816336",
-    "database": "d3s235slg12nah",
-    "host": "ec2-54-221-212-15.compute-1.amazonaws.com",
-    "dialect": "postgres",
+    "username": "modulusplus_purchase",
+    "password": "M1a4$1t4E8r0",
+    "database": "modulusplus_purchase",
+    "host": "localhost",
+    "dialect": "mysql",
     "define": {
       "charset": "utf8",
       "collate": "utf8_general_ci",

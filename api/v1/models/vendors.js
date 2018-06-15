@@ -27,7 +27,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     remarks: {
       type: DataTypes.TEXT,
-      allowNull: false
+      defaultValue: ''
     },
     status_id: {
       type: DataTypes.INTEGER,

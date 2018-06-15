@@ -9,7 +9,8 @@ router.use(function(req, res, next) {
 });
 router.get("/:id", workflow_users.findByWorkflowId);
 router.get("/:id/user", workflow_users.findByUserId);
+router.get("/:id/type/:type", workflow_users.findByWorkflowActors);
 router.post("/", workflow_users.create);
-router.delete("/:id/type/:type", workflow_users.delete);
+router.delete("/:id", workflow_users.delete);
 
 module.exports = router;
